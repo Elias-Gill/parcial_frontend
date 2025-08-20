@@ -1,0 +1,78 @@
+Electiva: Programación Web - Frontend
+Trabajo Práctico: Primer Parcial.
+Prof.: Ing. Gustavo Sosa Cataldo
+Este trabajo involucra la implementación del frontend de un sistema informático utilizando tecnología Angular.
+Entrega del TP:
+
+o​ Lunes 01/09 (día del primer parcial).
+Grupos de alumnos
+Los grupos serán de 5 alumnos como máximo, uno de los cuales estará identificado como el Líder del Proyecto
+(Project Leader), quien tendrá la obligación de tratar todos los temas concernientes a este trabajo con el cliente
+(profesor).
+Observaciones
+1)​ Para la implementación puede utilizar el IDE de su elección (Eclipse, Netbeans, IntelliJ IDEA, VSCode,
+etc).
+2)​ El frontend debe ser Angular >= 10
+3)​ Para el día de la entrega y defensa del TP deben estar presentes TODOS los integrantes del grupo, y el que
+no esté presente se llevará ausente.
+4)​ No se utilizará ninguna API (de manera a alivianar el desarrollo sin agregar dificultad al trabajo), es decir
+todo en memoria nada más (storage por ej o si quieren utilizar alguna base de datos tipo firebase no hay
+inconvenientes, también pueden usar json server que es para emular apis)
+5)​ El código fuente debe compartirse con el profesor mediante GITHUB o GITLAB.
+a.​ Además de todos los fuentes, debe adjuntarse un manual de implementación que detalle paso a
+paso cómo realizar el despliegue de la aplicación.
+b.​ Mi usuario en ambos repositorio es sosacataldo@gmail.com
+
+Enunciado: Agendamiento de atención a proveedores
+Se requiere la implementación de un sistema que permita el registro de agendamientos a
+proveedores.
+Los módulos a desarrollar son los siguientes:
+1)​ Administración de proveedores
+
+Este módulo contempla la administración (CRUD) de proveedores
+Campos: idProveedor, nombre
+La pantalla de listado debe filtrarse por nombre.
+2)​ Administración de productos
+
+Este módulo contempla la administración (CRUD) de los productos que pueden entregar los
+proveedores
+Campos: idProducto, nombre
+La pantalla de listado debe filtrarse por nombre.
+3)​ Administración de jaulas de recepción
+
+Este módulo contempla la administración (CRUD) de las jaulas que dispone el local para recibir
+las entregas del proveedor
+Campos: idJaula, nombre, enUso (valores posibles: S,N)
+La pantalla de listado debe filtrarse por nombre.
+4)​ Reserva de turnos de recepción
+
+Este módulo contempla el registro de reservas a los proveedores.
+Campos de cabecera: idTurno, fecha, horaInicioAgendamiento, horaFinAgendamiento, idProveedor, idJaula,
+horaInicioRecepcion, horaFinRecepcion
+Campos de detalle: idTurno, idProducto, cantidad
+
+Al registrar una reserva se completa los campos:
+-​ De la cabecera: se completa las hora de inicio y fin del agendamiento ademas de
+seleccionar el proveedor (horaInicioAgendamiento, horaFinAgendamiento, idProveedor)
+-​ Del detalle: se deben registrar tantos detalles como productos se seleccionen para el
+turno, con sus cantidades respectivas (idProducto, cantidad)
+Valores predefinidos posibles para seleccionar al hacer la reserva para los campos de hora tanto
+de inicio como de fin: 07:00, 07:30, 08:00, 08:30, …. 17:00, 17.30, 18:00
+5)​ Modulo de ejecucion de recepción de productos
+
+Este módulo permite:
+-​ ver los turnos en una tabla para una fecha en particular ordenados por
+horaInicioAgendamiento de manera ascendente
+-​ ver los detalles (productos asociados) de cada turno
+-​ ejecutar la recepción de productos de un turno en particular:
+-​ al iniciar la recepción se debe elegir una jaula libre (jaulas disponibles son las que
+el campo enUso= “N”) y cargar en la horaInicioRecepcion la hora actual, ademas de
+marcar el campo enUso con valor “S” para la jaula seleccionada
+-​ al finalizar la recepcion se debe cargar en la horaFinRecepcion la hora actual, ademas
+de marcar el campo enUso con valor “N” nuevamente para que quede disponible
+para otra recepción
+Una maqueta de guía con lo mínimo que debe tener este modulo 5:
+
+18/08/2025
+
+
