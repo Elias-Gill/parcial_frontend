@@ -1,11 +1,35 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+interface Proveedor {
+  idProveedor: number;
+  nombre: string;
+}
 
 @Component({
-  selector: 'app-formulario',
-  imports: [],
+  selector: 'app-proveedores-formulario',
   templateUrl: './formulario.html',
-  styleUrl: './formulario.css'
+  styleUrls: ['./formulario.css']
 })
-export class Formulario {
+export class FormularioComponent {
+  proveedor: Proveedor = { idProveedor: 0, nombre: '' };
+  editMode = false;
 
+  constructor(private route: ActivatedRoute, private router: Router) {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.editMode = true;
+      // Aquí deberías cargar el proveedor real desde un servicio
+      this.proveedor = { idProveedor: +id, nombre: 'Proveedor Demo' };
+    }
+  }
+
+  guardar() {
+    if (this.editMode) {
+      console.log('Proveedor actualizado:', this.proveedor);
+    } else {
+      console.log('Proveedor creado:', this.proveedor);
+    }
+    this.router.navigate(['/proveedores']);
+  }
 }

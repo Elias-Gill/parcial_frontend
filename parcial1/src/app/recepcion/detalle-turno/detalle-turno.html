@@ -1,1 +1,39 @@
-<p>detalle-turno works!</p>
+<section>
+  <h2>Detalle del Turno #{{ turno.idTurno }}</h2>
+
+  <p><strong>Proveedor:</strong> {{ turno.idProveedor }}</p>
+  <p><strong>Fecha:</strong> {{ turno.fecha }}</p>
+  <p><strong>Hora inicio recepción:</strong> {{ turno.horaInicioRecepcion || '-' }}</p>
+  <p><strong>Hora fin recepción:</strong> {{ turno.horaFinRecepcion || '-' }}</p>
+
+  <h3>Productos</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of turno.productos">
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.cantidad }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!turno.horaInicioRecepcion">
+    <label for="jaula">Seleccionar jaula:</label>
+    <select id="jaula" [(ngModel)]="jaulaSeleccionada">
+      <option [value]="null">--Seleccione--</option>
+      <option *ngFor="let j of jaulasDisponibles" [value]="j.idJaula">{{ j.nombre }}</option>
+    </select>
+    <button (click)="iniciarRecepcion()">Iniciar Recepción</button>
+  </div>
+
+  <div *ngIf="turno.horaInicioRecepcion && !turno.horaFinRecepcion">
+    <button (click)="finalizarRecepcion()">Finalizar Recepción</button>
+  </div>
+
+  <button (click)="router.navigate(['/recepcion'])">Volver</button>
+</section>

@@ -1,23 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { ListadoComponent } from './listado';
 
-import { Listado } from './listado';
-
-describe('Listado', () => {
-  let component: Listado;
-  let fixture: ComponentFixture<Listado>;
+describe('ListadoComponent', () => {
+  let component: ListadoComponent;
+  let fixture: ComponentFixture<ListadoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Listado]
-    })
-    .compileComponents();
+      declarations: [ListadoComponent],
+      imports: [FormsModule]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(Listado);
+    fixture = TestBed.createComponent(ListadoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('debería crearse', () => {
     expect(component).toBeTruthy();
   });
 });

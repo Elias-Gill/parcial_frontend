@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import { ProveedoresRoutingModule } from './proveedores-routing-module';
-
+import { ListadoComponent } from './listado/listado';
+import { FormularioComponent } from './formulario/formulario';
 
 @NgModule({
-  declarations: [],
   imports: [
+    ListadoComponent,
+    FormularioComponent,
     CommonModule,
-    ProveedoresRoutingModule
-  ]
+    FormsModule,
+    ProveedoresRoutingModule,
+  ],
 })
-export class ProveedoresModule { }
+export class ProveedoresModule {}

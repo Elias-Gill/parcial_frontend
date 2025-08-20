@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DetalleTurnoComponent } from './detalle-turno';
 
-import { DetalleTurno } from './detalle-turno';
-
-describe('DetalleTurno', () => {
-  let component: DetalleTurno;
-  let fixture: ComponentFixture<DetalleTurno>;
+describe('DetalleTurnoComponent', () => {
+  let component: DetalleTurnoComponent;
+  let fixture: ComponentFixture<DetalleTurnoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DetalleTurno]
-    })
-    .compileComponents();
+      declarations: [DetalleTurnoComponent],
+      imports: [FormsModule, RouterTestingModule]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(DetalleTurno);
+    fixture = TestBed.createComponent(DetalleTurnoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('debería crearse', () => {
     expect(component).toBeTruthy();
   });
 });

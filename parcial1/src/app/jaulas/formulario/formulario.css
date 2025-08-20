@@ -1,0 +1,25 @@
+section {
+  padding: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+label {
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+input, select {
+  padding: 0.4rem;
+  border: 1px solid #ddd;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}

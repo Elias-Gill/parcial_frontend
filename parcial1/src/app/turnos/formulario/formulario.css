@@ -1,0 +1,23 @@
+section {
+  padding: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 0.5rem;
+}
+
+input, select {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem;
+}
+
+button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}

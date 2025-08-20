@@ -1,1 +1,32 @@
-<p>listado works!</p>
+<section>
+  <h2>Listado de Jaulas</h2>
+
+  <input
+    type="text"
+    placeholder="Filtrar por nombre"
+    [(ngModel)]="filtro"
+  />
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>En uso</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let jaula of jaulasFiltradas">
+        <td>{{ jaula.idJaula }}</td>
+        <td>{{ jaula.nombre }}</td>
+        <td>{{ jaula.enUso === 'S' ? 'Sí' : 'No' }}</td>
+        <td>
+          <a [routerLink]="['/jaulas/editar', jaula.idJaula]">Editar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button routerLink="/jaulas/nuevo">+ Nueva Jaula</button>
+</section>

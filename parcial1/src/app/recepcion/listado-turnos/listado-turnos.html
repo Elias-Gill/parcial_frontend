@@ -1,1 +1,29 @@
-<p>listado-turnos works!</p>
+<section>
+  <h2>Turnos de Recepción - {{ fecha }}</h2>
+
+  <label for="fecha">Fecha:</label>
+  <input type="date" id="fecha" [(ngModel)]="fecha" />
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Proveedor</th>
+        <th>Hora Inicio</th>
+        <th>Hora Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of turnos">
+        <td>{{ turno.idTurno }}</td>
+        <td>{{ turno.idProveedor }}</td>
+        <td>{{ turno.horaInicioAgendamiento }}</td>
+        <td>{{ turno.horaFinAgendamiento }}</td>
+        <td>
+          <button (click)="verDetalle(turno)">Ver Detalle</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

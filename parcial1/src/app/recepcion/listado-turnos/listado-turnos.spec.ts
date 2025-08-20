@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ListadoTurnosComponent } from './listado-turnos';
 
-import { ListadoTurnos } from './listado-turnos';
-
-describe('ListadoTurnos', () => {
-  let component: ListadoTurnos;
-  let fixture: ComponentFixture<ListadoTurnos>;
+describe('ListadoTurnosComponent', () => {
+  let component: ListadoTurnosComponent;
+  let fixture: ComponentFixture<ListadoTurnosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListadoTurnos]
-    })
-    .compileComponents();
+      declarations: [ListadoTurnosComponent],
+      imports: [FormsModule, RouterTestingModule]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(ListadoTurnos);
+    fixture = TestBed.createComponent(ListadoTurnosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('debería crearse', () => {
     expect(component).toBeTruthy();
   });
 });

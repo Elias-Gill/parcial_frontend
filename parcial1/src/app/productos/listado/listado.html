@@ -1,1 +1,30 @@
-<p>listado works!</p>
+<section>
+  <h2>Listado de Productos</h2>
+
+  <input
+    type="text"
+    placeholder="Filtrar por nombre"
+    [(ngModel)]="filtro"
+  />
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productosFiltrados">
+        <td>{{ producto.idProducto }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>
+          <a [routerLink]="['/productos/editar', producto.idProducto]">Editar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button routerLink="/productos/nuevo">+ Nuevo Producto</button>
+</section>

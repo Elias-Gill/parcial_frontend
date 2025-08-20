@@ -1,1 +1,45 @@
-<p>formulario works!</p>
+<section>
+  <h2>{{ editMode ? 'Editar Turno' : 'Nuevo Turno' }}</h2>
+
+  <form (ngSubmit)="guardar()">
+    <label for="fecha">Fecha</label>
+    <input id="fecha" type="date" [(ngModel)]="turno.fecha" name="fecha" required />
+
+    <label for="horaInicio">Hora Inicio</label>
+    <select id="horaInicio" [(ngModel)]="turno.horaInicioAgendamiento" name="horaInicio" required>
+      <option *ngFor="let h of ['07:00','07:30','08:00','08:30','09:00']" [value]="h">{{ h }}</option>
+    </select>
+
+    <label for="horaFin">Hora Fin</label>
+    <select id="horaFin" [(ngModel)]="turno.horaFinAgendamiento" name="horaFin" required>
+      <option *ngFor="let h of ['07:30','08:00','08:30','09:00','09:30']" [value]="h">{{ h }}</option>
+    </select>
+
+    <label for="proveedor">Proveedor</label>
+    <select id="proveedor" [(ngModel)]="turno.idProveedor" name="proveedor" required>
+      <option *ngFor="let p of proveedores" [value]="p.idProveedor">{{ p.nombre }}</option>
+    </select>
+
+    <label for="jaula">Jaula</label>
+    <select id="jaula" [(ngModel)]="turno.idJaula" name="jaula">
+      <option [value]="null">--Seleccione--</option>
+      <option *ngFor="let j of jaulas" [value]="j.idJaula">{{ j.nombre }}</option>
+    </select>
+
+    <h3>Productos</h3>
+    <div *ngFor="let p of turno.productos; let i = index">
+      <select [(ngModel)]="p.idProducto" name="producto{{i}}" required>
+        <option [value]="0">--Seleccione--</option>
+        <option *ngFor="let prod of productosDisponibles" [value]="prod.idProducto">{{ prod.nombre }}</option>
+      </select>
+      <input type="number" [(ngModel)]="p.cantidad" name="cantidad{{i}}" min="1" required />
+      <button type="button" (click)="eliminarProducto(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarProducto()">+ Agregar Producto</button>
+
+    <div>
+      <button type="submit">Guardar</button>
+      <button type="button" (click)="router.navigate(['/turnos'])">Cancelar</button>
+    </div>
+  </form>
+</section>

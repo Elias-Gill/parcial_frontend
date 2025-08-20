@@ -1,0 +1,31 @@
+section {
+  padding: 1rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+input[type="date"] {
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+}
+
+th {
+  background-color: #f5f5f5;
+  text-align: left;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+}

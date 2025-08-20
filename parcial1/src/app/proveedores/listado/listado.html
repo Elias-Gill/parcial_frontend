@@ -1,1 +1,30 @@
-<p>listado works!</p>
+<section>
+  <h2>Listado de Proveedores</h2>
+
+  <input
+    type="text"
+    placeholder="Filtrar por nombre"
+    [(ngModel)]="filtro"
+  />
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proveedor of proveedoresFiltrados">
+        <td>{{ proveedor.idProveedor }}</td>
+        <td>{{ proveedor.nombre }}</td>
+        <td>
+          <a [routerLink]="['/proveedores/editar', proveedor.idProveedor]">Editar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button routerLink="/proveedores/nuevo">+ Nuevo Proveedor</button>
+</section>

@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import { TurnosRoutingModule } from './turnos-routing-module';
-
+import { ListadoComponent } from './listado/listado';
+import { FormularioComponent } from './formulario/formulario';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    TurnosRoutingModule
-  ]
+  imports: [ListadoComponent, FormularioComponent, CommonModule, FormsModule, TurnosRoutingModule],
 })
-export class TurnosModule { }
+export class TurnosModule {}

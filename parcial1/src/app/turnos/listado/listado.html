@@ -1,1 +1,32 @@
-<p>listado works!</p>
+<section>
+  <h2>Turnos Agendados</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Hora Inicio</th>
+        <th>Hora Fin</th>
+        <th>Proveedor</th>
+        <th>Jaula</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of turnos">
+        <td>{{ t.idTurno }}</td>
+        <td>{{ t.fecha }}</td>
+        <td>{{ t.horaInicioAgendamiento }}</td>
+        <td>{{ t.horaFinAgendamiento }}</td>
+        <td>{{ t.idProveedor }}</td>
+        <td>{{ t.idJaula || '-' }}</td>
+        <td>
+          <button (click)="editarTurno(t)">Editar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button (click)="nuevoTurno()">+ Nuevo Turno</button>
+</section>

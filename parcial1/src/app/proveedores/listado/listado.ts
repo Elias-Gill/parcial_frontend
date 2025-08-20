@@ -1,11 +1,27 @@
 import { Component } from '@angular/core';
 
-@Component({
-  selector: 'app-listado',
-  imports: [],
-  templateUrl: './listado.html',
-  styleUrl: './listado.css'
-})
-export class Listado {
+interface Proveedor {
+  idProveedor: number;
+  nombre: string;
+}
 
+@Component({
+  selector: 'app-proveedores-listado',
+  templateUrl: './listado.html',
+  styleUrls: ['./listado.css']
+})
+export class ListadoComponent {
+  filtro: string = '';
+  proveedores: Proveedor[] = [
+    { idProveedor: 1, nombre: 'Proveedor A' },
+    { idProveedor: 2, nombre: 'Proveedor B' },
+    { idProveedor: 3, nombre: 'Proveedor C' }
+  ];
+
+  get proveedoresFiltrados(): Proveedor[] {
+    if (!this.filtro) return this.proveedores;
+    return this.proveedores.filter(p =>
+      p.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+    );
+  }
 }
