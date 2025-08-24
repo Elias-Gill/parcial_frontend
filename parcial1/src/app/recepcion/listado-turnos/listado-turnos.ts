@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 interface Turno {
@@ -18,7 +19,7 @@ interface Turno {
   templateUrl: './listado-turnos.html',
   styleUrls: ['./listado-turnos.css'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
 export class ListadoTurnosComponent {
   fecha: string = new Date().toISOString().split('T')[0]; // hoy

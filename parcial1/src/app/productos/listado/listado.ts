@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 interface Producto {
   idProducto: number;
@@ -9,7 +11,7 @@ interface Producto {
 @Component({
   selector: 'app-productos-listado',
   templateUrl: './listado.html',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   standalone: true,
   styleUrls: ['./listado.css'],
 })

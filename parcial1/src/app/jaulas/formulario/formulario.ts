@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 interface Jaula {
@@ -11,7 +12,7 @@ interface Jaula {
 @Component({
   selector: 'app-jaulas-formulario',
   templateUrl: './formulario.html',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   standalone: true,
   styleUrls: ['./formulario.css'],
 })
@@ -21,7 +22,7 @@ export class FormularioComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {

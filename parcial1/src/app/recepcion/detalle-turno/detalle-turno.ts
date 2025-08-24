@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 interface ProductoDetalle {
   idProducto: number;
@@ -21,7 +22,7 @@ interface Turno {
 @Component({
   selector: 'app-detalle-turno',
   templateUrl: './detalle-turno.html',
-  imports: [CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   standalone: true,
   styleUrls: ['./detalle-turno.css'],
 })
@@ -43,7 +44,7 @@ export class DetalleTurnoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
   ) {}
 
   ngOnInit() {

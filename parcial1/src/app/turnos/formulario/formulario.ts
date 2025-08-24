@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 interface Turno {
@@ -16,7 +17,7 @@ interface Turno {
   selector: 'app-turnos-formulario',
   templateUrl: './formulario.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent implements OnInit {
@@ -49,7 +50,7 @@ export class FormularioComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
   ) {}
 
   ngOnInit() {

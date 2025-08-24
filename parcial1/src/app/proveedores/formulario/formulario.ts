@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 interface Proveedor {
@@ -10,15 +11,18 @@ interface Proveedor {
 @Component({
   selector: 'app-proveedores-formulario',
   templateUrl: './formulario.html',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   standalone: true,
-  styleUrls: ['./formulario.css']
+  styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent {
   proveedor: Proveedor = { idProveedor: 0, nombre: '' };
   editMode = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    public router: Router,
+  ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;

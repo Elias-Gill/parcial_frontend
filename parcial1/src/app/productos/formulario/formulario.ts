@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 interface Producto {
   idProducto: number;
@@ -10,7 +11,7 @@ interface Producto {
 @Component({
   selector: 'app-productos-formulario',
   templateUrl: './formulario.html',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   standalone: true,
   styleUrls: ['./formulario.css']
 })
@@ -18,7 +19,7 @@ export class FormularioComponent {
   producto: Producto = { idProducto: 0, nombre: '' };
   editMode = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, public router: Router) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;

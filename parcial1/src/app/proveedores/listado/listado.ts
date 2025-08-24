@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 interface Proveedor {
   idProveedor: number;
@@ -8,7 +11,7 @@ interface Proveedor {
 @Component({
   selector: 'app-proveedores-listado',
   templateUrl: './listado.html',
-  imports: const [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   styleUrls: ['./listado.css'],
   standalone: true,
 })
