@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +10,8 @@ interface Proveedor {
 @Component({
   selector: 'app-proveedores-formulario',
   templateUrl: './formulario.html',
+  imports: [CommonModule],
+  standalone: true,
   styleUrls: ['./formulario.css']
 })
 export class FormularioComponent {

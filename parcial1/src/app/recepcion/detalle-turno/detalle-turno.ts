@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -20,6 +21,8 @@ interface Turno {
 @Component({
   selector: 'app-detalle-turno',
   templateUrl: './detalle-turno.html',
+  imports: [CommonModule],
+  standalone: true,
   styleUrls: ['./detalle-turno.css'],
 })
 export class DetalleTurnoComponent implements OnInit {

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -10,13 +11,18 @@ interface Jaula {
 @Component({
   selector: 'app-jaulas-formulario',
   templateUrl: './formulario.html',
-  styleUrls: ['./formulario.css']
+  imports: [CommonModule],
+  standalone: true,
+  styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent {
   jaula: Jaula = { idJaula: 0, nombre: '', enUso: 'N' };
   editMode = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 interface Jaula {
@@ -9,6 +10,7 @@ interface Jaula {
 @Component({
   selector: 'app-jaulas-listado',
   templateUrl: './listado.html',
+  imports: [CommonModule],
   styleUrls: ['./listado.css'],
   standalone: true
 })

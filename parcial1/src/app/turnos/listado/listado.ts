@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -13,13 +14,28 @@ interface Turno {
 @Component({
   selector: 'app-turnos-listado',
   templateUrl: './listado.html',
-  styleUrls: ['./listado.css']
+  imports: [CommonModule],
+  standalone: true,
+  styleUrls: ['./listado.css'],
 })
-
 export class ListadoComponent {
   turnos: Turno[] = [
-    { idTurno: 1, fecha: '2025-08-20', horaInicioAgendamiento: '07:00', horaFinAgendamiento: '07:30', idProveedor: 1, idJaula: 2 },
-    { idTurno: 2, fecha: '2025-08-20', horaInicioAgendamiento: '08:00', horaFinAgendamiento: '08:30', idProveedor: 2, idJaula: null }
+    {
+      idTurno: 1,
+      fecha: '2025-08-20',
+      horaInicioAgendamiento: '07:00',
+      horaFinAgendamiento: '07:30',
+      idProveedor: 1,
+      idJaula: 2,
+    },
+    {
+      idTurno: 2,
+      fecha: '2025-08-20',
+      horaInicioAgendamiento: '08:00',
+      horaFinAgendamiento: '08:30',
+      idProveedor: 2,
+      idJaula: null,
+    },
   ];
 
   constructor(private router: Router) {}

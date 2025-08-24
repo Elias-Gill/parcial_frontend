@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,7 +15,9 @@ interface Turno {
 @Component({
   selector: 'app-turnos-formulario',
   templateUrl: './formulario.html',
-  styleUrls: ['./formulario.css']
+  standalone: true,
+  imports: [CommonModule],
+  styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent implements OnInit {
   turno: Turno = {
@@ -24,27 +27,30 @@ export class FormularioComponent implements OnInit {
     horaFinAgendamiento: '',
     idProveedor: 0,
     idJaula: null,
-    productos: []
+    productos: [],
   };
 
   editMode = false;
 
   proveedores = [
     { idProveedor: 1, nombre: 'Proveedor 1' },
-    { idProveedor: 2, nombre: 'Proveedor 2' }
+    { idProveedor: 2, nombre: 'Proveedor 2' },
   ];
 
   jaulas = [
     { idJaula: 1, nombre: 'Jaula 1' },
-    { idJaula: 2, nombre: 'Jaula 2' }
+    { idJaula: 2, nombre: 'Jaula 2' },
   ];
 
   productosDisponibles = [
     { idProducto: 1, nombre: 'Producto A' },
-    { idProducto: 2, nombre: 'Producto B' }
+    { idProducto: 2, nombre: 'Producto B' },
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
