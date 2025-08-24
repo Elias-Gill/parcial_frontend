@@ -1,39 +1,53 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-
-interface Producto {
-  idProducto: number;
-  nombre: string;
-}
+import { StorageService } from '../../services/storage.service';
+import { Producto } from '../../models/producto';
 
 @Component({
   selector: 'app-productos-formulario',
   templateUrl: './formulario.html',
   imports: [CommonModule, FormsModule, RouterModule],
   standalone: true,
-  styleUrls: ['./formulario.css']
+  styleUrls: ['./formulario.css'],
 })
-export class FormularioComponent {
+export class FormularioComponent implements OnInit {
   producto: Producto = { idProducto: 0, nombre: '' };
   editMode = false;
+  productos: Producto[] = [];
 
-  constructor(private route: ActivatedRoute, public router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    public router: Router,
+    private storage: StorageService,
+  ) {}
+
+  ngOnInit() {
+    // Cargar desde LocalStorage (SSR-safe gracias al servicio)
+    this.productos = this.storage.getItem<Producto[]>('productos') || [];
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;
-      // En la práctica, se cargaría desde un servicio
-      this.producto = { idProducto: +id, nombre: 'Producto Demo' };
+      const existente = this.productos.find((p) => p.idProducto === +id);
+      if (existente) this.producto = { ...existente };
     }
   }
 
   guardar() {
     if (this.editMode) {
-      console.log('Producto actualizado:', this.producto);
+      const idx = this.productos.findIndex((p) => p.idProducto === this.producto.idProducto);
+      if (idx !== -1) this.productos[idx] = { ...this.producto };
     } else {
-      console.log('Producto creado:', this.producto);
+      const nextId = this.productos.length
+        ? Math.max(...this.productos.map((p) => p.idProducto)) + 1
+        : 1;
+      this.producto.idProducto = nextId;
+      this.productos.push({ ...this.producto });
     }
+
+    this.storage.setItem<Producto[]>('productos', this.productos);
     this.router.navigate(['/productos']);
   }
 }

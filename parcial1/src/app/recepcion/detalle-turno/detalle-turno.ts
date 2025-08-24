@@ -1,82 +1,88 @@
+// src/app/recepcion/detalle-turno.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
+import { Turno } from '../../models/turno';
+import { Producto } from '../../models/producto';
 
-interface ProductoDetalle {
-  idProducto: number;
+interface Jaula {
+  idJaula: number;
   nombre: string;
-  cantidad: number;
-}
-
-interface Turno {
-  idTurno: number;
-  fecha: string;
-  idProveedor: number;
-  idJaula: number | null;
-  horaInicioRecepcion?: string;
-  horaFinRecepcion?: string;
-  productos: ProductoDetalle[];
 }
 
 @Component({
   selector: 'app-detalle-turno',
   templateUrl: './detalle-turno.html',
-  imports: [RouterModule, CommonModule, FormsModule],
-  standalone: true,
   styleUrls: ['./detalle-turno.css'],
+  standalone: true,
+  imports: [RouterModule, CommonModule, FormsModule],
 })
 export class DetalleTurnoComponent implements OnInit {
   turno: Turno = {
     idTurno: 0,
     fecha: '',
+    horaInicioAgendamiento: '',
+    horaFinAgendamiento: '',
     idProveedor: 0,
     idJaula: null,
     productos: [],
   };
 
-  jaulasDisponibles = [
-    { idJaula: 1, nombre: 'Jaula 1' },
-    { idJaula: 3, nombre: 'Jaula 3' },
-  ];
-
+  jaulasDisponibles: Jaula[] = [];
+  productos: Producto[] = [];
   jaulaSeleccionada: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
+    private storage: StorageService,
   ) {}
 
   ngOnInit() {
+    this.jaulasDisponibles = this.storage.getItem<Jaula[]>('jaulas') || [];
+    this.productos = this.storage.getItem<Producto[]>('productos') || [];
+
+    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      // Aquí se cargaría el turno real desde un servicio
-      this.turno = {
-        idTurno: +id,
-        fecha: new Date().toISOString().split('T')[0],
-        idProveedor: 1,
-        idJaula: null,
-        productos: [
-          { idProducto: 1, nombre: 'Producto A', cantidad: 10 },
-          { idProducto: 2, nombre: 'Producto B', cantidad: 5 },
-        ],
-      };
+      const t = turnos.find((turno) => turno.idTurno === +id);
+      if (t) this.turno = { ...t };
     }
   }
 
   iniciarRecepcion() {
     if (!this.jaulaSeleccionada) return alert('Seleccione una jaula disponible');
     this.turno.idJaula = this.jaulaSeleccionada;
-    this.turno.horaInicioRecepcion = new Date().toLocaleTimeString();
+    this.turno.horaInicioAgendamiento = new Date().toLocaleTimeString();
+    this.guardarTurno();
     alert(`Recepción iniciada en jaula ${this.jaulaSeleccionada}`);
   }
 
   finalizarRecepcion() {
-    if (!this.turno.horaInicioRecepcion) return alert('Primero debe iniciar la recepción');
-    this.turno.horaFinRecepcion = new Date().toLocaleTimeString();
+    if (!this.turno.horaInicioAgendamiento) return alert('Primero debe iniciar la recepción');
+    this.turno.horaFinAgendamiento = new Date().toLocaleTimeString();
     this.turno.idJaula = null;
     this.jaulaSeleccionada = null;
+    this.guardarTurno();
     alert('Recepción finalizada');
     this.router.navigate(['/recepcion']);
+  }
+
+  private guardarTurno() {
+    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
+    const index = turnos.findIndex((t) => t.idTurno === this.turno.idTurno);
+    if (index !== -1) {
+      turnos[index] = { ...this.turno };
+    } else {
+      turnos.push({ ...this.turno });
+    }
+    this.storage.setItem('turnos', turnos);
+  }
+
+  nombreProducto(idProducto: number): string {
+    const p = this.productos.find((prod) => prod.idProducto === idProducto);
+    return p ? p.nombre : 'Desconocido';
   }
 }

@@ -2,16 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
+import { Turno } from '../../models/turno';
+import { Producto } from '../../models/producto';
 
-interface Turno {
-  idTurno: number;
-  fecha: string;
-  horaInicioAgendamiento: string;
-  horaFinAgendamiento: string;
-  idProveedor: number;
-  idJaula: number | null;
-  productos: { idProducto: number; cantidad: number }[];
-}
+interface Proveedor { idProveedor: number; nombre: string; }
+interface Jaula { idJaula: number; nombre: string; }
 
 @Component({
   selector: 'app-turnos-formulario',
@@ -28,60 +24,60 @@ export class FormularioComponent implements OnInit {
     horaFinAgendamiento: '',
     idProveedor: 0,
     idJaula: null,
-    productos: [],
+    productos: [], // array de ProductoDetalle
   };
 
   editMode = false;
 
-  proveedores = [
-    { idProveedor: 1, nombre: 'Proveedor 1' },
-    { idProveedor: 2, nombre: 'Proveedor 2' },
-  ];
-
-  jaulas = [
-    { idJaula: 1, nombre: 'Jaula 1' },
-    { idJaula: 2, nombre: 'Jaula 2' },
-  ];
-
-  productosDisponibles = [
-    { idProducto: 1, nombre: 'Producto A' },
-    { idProducto: 2, nombre: 'Producto B' },
-  ];
+  proveedores: Proveedor[] = [];
+  jaulas: Jaula[] = [];
+  productosDisponibles: Producto[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
+    private storage: StorageService
   ) {}
 
   ngOnInit() {
+    this.proveedores = this.storage.getItem<Proveedor[]>('proveedores') || [];
+    this.jaulas = this.storage.getItem<Jaula[]>('jaulas') || [];
+    this.productosDisponibles = this.storage.getItem<Producto[]>('productos') || [];
+
+    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;
-      // Aquí cargarías el turno real desde un servicio
-      this.turno.idTurno = +id;
-      this.turno.fecha = '2025-08-20';
-      this.turno.horaInicioAgendamiento = '07:00';
-      this.turno.horaFinAgendamiento = '07:30';
-      this.turno.idProveedor = 1;
-      this.turno.idJaula = 1;
-      this.turno.productos = [{ idProducto: 1, cantidad: 10 }];
+      const turnoExistente = turnos.find(t => t.idTurno === +id);
+      if (turnoExistente) {
+        this.turno = { ...turnoExistente };
+      }
     }
   }
 
   agregarProducto() {
+    if (!this.turno.productos) this.turno.productos = [];
+    // esto ya es ProductoDetalle, no Producto
     this.turno.productos.push({ idProducto: 0, cantidad: 1 });
   }
 
   eliminarProducto(index: number) {
-    this.turno.productos.splice(index, 1);
+    this.turno.productos?.splice(index, 1);
   }
 
   guardar() {
+    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
+
     if (this.editMode) {
-      console.log('Turno actualizado:', this.turno);
+      const index = turnos.findIndex(t => t.idTurno === this.turno.idTurno);
+      if (index !== -1) turnos[index] = { ...this.turno };
     } else {
-      console.log('Turno creado:', this.turno);
+      this.turno.idTurno = Date.now();
+      turnos.push({ ...this.turno });
     }
+
+    this.storage.setItem('turnos', turnos);
     this.router.navigate(['/turnos']);
   }
 }

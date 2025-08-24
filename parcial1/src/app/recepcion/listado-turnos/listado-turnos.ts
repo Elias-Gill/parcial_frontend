@@ -1,18 +1,10 @@
+// src/app/recepcion/listado-turnos.ts
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-interface Turno {
-  idTurno: number;
-  fecha: string;
-  horaInicioAgendamiento: string;
-  horaFinAgendamiento: string;
-  idProveedor: number;
-  idJaula: number | null;
-  horaInicioRecepcion?: string;
-  horaFinRecepcion?: string;
-}
+import { StorageService } from '../../services/storage.service';
+import { Turno } from '../../models/turno';
 
 @Component({
   selector: 'app-listado-turnos',
@@ -22,27 +14,12 @@ interface Turno {
   imports: [CommonModule, FormsModule],
 })
 export class ListadoTurnosComponent {
-  fecha: string = new Date().toISOString().split('T')[0]; // hoy
-  turnos: Turno[] = [
-    {
-      idTurno: 1,
-      fecha: this.fecha,
-      horaInicioAgendamiento: '07:00',
-      horaFinAgendamiento: '07:30',
-      idProveedor: 1,
-      idJaula: null,
-    },
-    {
-      idTurno: 2,
-      fecha: this.fecha,
-      horaInicioAgendamiento: '08:00',
-      horaFinAgendamiento: '08:30',
-      idProveedor: 2,
-      idJaula: null,
-    },
-  ];
+  fecha: string = new Date().toISOString().split('T')[0];
+  turnos: Turno[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private storage: StorageService) {
+    this.turnos = this.storage.getItem<Turno[]>('turnos') || [];
+  }
 
   verDetalle(turno: Turno) {
     this.router.navigate(['/recepcion/detalle', turno.idTurno]);

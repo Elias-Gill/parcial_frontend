@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-interface Producto {
-  idProducto: number;
-  nombre: string;
-}
+import { StorageService } from '../../services/storage.service';
+import { Producto } from '../../models/producto';
 
 @Component({
   selector: 'app-productos-listado',
@@ -15,13 +12,15 @@ interface Producto {
   standalone: true,
   styleUrls: ['./listado.css'],
 })
-export class ListadoComponent {
+export class ListadoComponent implements OnInit {
   filtro: string = '';
-  productos: Producto[] = [
-    { idProducto: 1, nombre: 'Producto X' },
-    { idProducto: 2, nombre: 'Producto Y' },
-    { idProducto: 3, nombre: 'Producto Z' },
-  ];
+  productos: Producto[] = [];
+
+  constructor(private storage: StorageService) {}
+
+  ngOnInit() {
+    this.productos = this.storage.getItem<Producto[]>('productos') || [];
+  }
 
   get productosFiltrados(): Producto[] {
     if (!this.filtro) return this.productos;

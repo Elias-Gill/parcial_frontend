@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
 
 interface Jaula {
   idJaula: number;
@@ -14,20 +15,20 @@ interface Jaula {
   templateUrl: './listado.html',
   imports: [CommonModule, FormsModule, RouterModule],
   styleUrls: ['./listado.css'],
-  standalone: true
+  standalone: true,
 })
 export class ListadoComponent {
   filtro: string = '';
-  jaulas: Jaula[] = [
-    { idJaula: 1, nombre: 'Jaula 1', enUso: 'N' },
-    { idJaula: 2, nombre: 'Jaula 2', enUso: 'S' },
-    { idJaula: 3, nombre: 'Jaula 3', enUso: 'N' }
-  ];
+  jaulas: Jaula[] = [];
+
+  constructor(private storage: StorageService) {
+    // Cargar jaulas desde LocalStorage
+    const stored = this.storage.getItem<Jaula[]>('jaulas');
+    if (stored) this.jaulas = stored;
+  }
 
   get jaulasFiltradas(): Jaula[] {
     if (!this.filtro) return this.jaulas;
-    return this.jaulas.filter(j =>
-      j.nombre.toLowerCase().includes(this.filtro.toLowerCase())
-    );
+    return this.jaulas.filter((j) => j.nombre.toLowerCase().includes(this.filtro.toLowerCase()));
   }
 }

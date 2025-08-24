@@ -3,8 +3,8 @@
 
   <p><strong>Proveedor:</strong> {{ turno.idProveedor }}</p>
   <p><strong>Fecha:</strong> {{ turno.fecha }}</p>
-  <p><strong>Hora inicio recepción:</strong> {{ turno.horaInicioRecepcion || '-' }}</p>
-  <p><strong>Hora fin recepción:</strong> {{ turno.horaFinRecepcion || '-' }}</p>
+  <p><strong>Hora inicio recepción:</strong> {{ turno.horaInicioAgendamiento || '-' }}</p>
+  <p><strong>Hora fin recepción:</strong> {{ turno.horaFinAgendamiento || '-' }}</p>
 
   <h3>Productos</h3>
   <table>
@@ -16,13 +16,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let p of turno.productos">
-        <td>{{ p.nombre }}</td>
+        <td>
+          <a [routerLink]="['/productos/']">{{ p.idProducto }}</a>
+        </td>
         <td>{{ p.cantidad }}</td>
       </tr>
     </tbody>
   </table>
 
-  <div *ngIf="!turno.horaInicioRecepcion">
+  <div *ngIf="!turno.horaInicioAgendamiento">
     <label for="jaula">Seleccionar jaula:</label>
     <select id="jaula" [(ngModel)]="jaulaSeleccionada">
       <option [value]="null">--Seleccione--</option>
@@ -31,7 +33,7 @@
     <button (click)="iniciarRecepcion()">Iniciar Recepción</button>
   </div>
 
-  <div *ngIf="turno.horaInicioRecepcion && !turno.horaFinRecepcion">
+  <div *ngIf="turno.horaInicioAgendamiento && !turno.horaFinAgendamiento">
     <button (click)="finalizarRecepcion()">Finalizar Recepción</button>
   </div>
 
