@@ -1,42 +1,56 @@
-<div>
-  <h2>Nuevo Turno</h2>
+<div class="max-w-xl mx-auto p-6 rounded-xl shadow-2xl bg-bg text-text border border-border relative z-50">
+  <h2 class="text-3xl font-bold mb-6 text-highlight">Nuevo Turno</h2>
 
-  <label>Proveedor:</label>
-  <select [(ngModel)]="idProveedor" (change)="filtrarProductos()">
+  <label class="block mb-2 font-semibold">Proveedor:</label>
+  <select [(ngModel)]="idProveedor" (change)="filtrarProductos()"
+          class="w-full p-3 border rounded-lg border-border-muted bg-bg-light text-text">
     <option value="" disabled selected>Seleccione un proveedor</option>
     <option *ngFor="let p of proveedores" [value]="p.idProveedor">{{ p.nombre }}</option>
   </select>
 
-  <label>Fecha:</label>
-  <input type="date" [(ngModel)]="fecha" />
+  <div class="mt-4 grid grid-cols-2 gap-4">
+    <div>
+      <label class="block mb-2 font-semibold">Fecha:</label>
+      <input type="date" [(ngModel)]="fecha"
+             class="w-full p-2 border rounded-lg border-border-muted bg-bg-light text-text"/>
+    </div>
+    <div>
+      <label class="block mb-2 font-semibold">Hora inicio:</label>
+      <input type="time" [(ngModel)]="horaInicio"
+             class="w-full p-2 border rounded-lg border-border-muted bg-bg-light text-text"/>
+    </div>
+    <div>
+      <label class="block mb-2 font-semibold">Hora fin:</label>
+      <input type="time" [(ngModel)]="horaFin"
+             class="w-full p-2 border rounded-lg border-border-muted bg-bg-light text-text"/>
+    </div>
+  </div>
 
-  <label>Hora inicio:</label>
-  <input type="time" [(ngModel)]="horaInicio" />
+  <h3 class="text-2xl font-bold mt-6 mb-2 text-primary">Productos</h3>
+  <input type="text" placeholder="Buscar producto..." [(ngModel)]="filtroProducto"
+         class="w-full p-2 border rounded-lg border-border-muted mb-4 bg-bg-light text-text"/>
 
-  <label>Hora fin:</label>
-  <input type="time" [(ngModel)]="horaFin" />
-
-  <h3>Productos</h3>
-  <ul>
-    <li *ngFor="let p of productosFiltrados">
-      {{ p.nombre }}
-      <input
-        type="number"
-        min="1"
-        [(ngModel)]="cantidades[p.idProducto]"
-        placeholder="Cantidad"
-      />
-      <button (click)="agregarProducto(p)">Agregar</button>
+  <ul class="space-y-2 mb-4">
+    <li *ngFor="let p of productosFiltrados" class="flex items-center space-x-2">
+      <span class="flex-1">{{ p.nombre }}</span>
+      <input type="number" min="1" [(ngModel)]="cantidades[p.idProducto]"
+             placeholder="Cantidad" class="w-20 p-1 border rounded border-border-muted bg-bg-light text-text"/>
+      <button (click)="agregarProducto(p)"
+              class="px-3 py-1 bg-primary text-bg rounded hover:bg-highlight">Agregar</button>
     </li>
   </ul>
 
-  <h4>Seleccionados:</h4>
-  <ul>
-    <li *ngFor="let prod of productosSeleccionados">
-      {{ prod.nombreProducto }} - {{ prod.cantidad }}
-      <button (click)="eliminarProducto(prod.idProducto)">Eliminar</button>
+  <h4 class="text-xl font-semibold mb-2 text-secondary">Seleccionados:</h4>
+  <ul class="space-y-1 mb-4">
+    <li *ngFor="let prod of productosSeleccionados" class="flex items-center justify-between">
+      <span>{{ prod.nombreProducto }} - {{ prod.cantidad }}</span>
+      <button (click)="eliminarProducto(prod.idProducto)"
+              class="px-2 py-1 bg-danger text-bg rounded hover:bg-warning">Eliminar</button>
     </li>
   </ul>
 
-  <button (click)="guardarTurno()">Guardar Turno</button>
+  <button (click)="guardarTurno()"
+          class="w-full py-3 bg-success text-bg font-bold rounded-lg hover:bg-info transition-colors duration-200">
+    Guardar Turno
+  </button>
 </div>

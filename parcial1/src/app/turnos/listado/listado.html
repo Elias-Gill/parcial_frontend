@@ -1,47 +1,81 @@
-<div>
-  <h2>Turnos agendados</h2>
+<div class="max-w-6xl mx-auto p-6 bg-bg rounded-xl shadow-lg text-text relative">
 
-  <button (click)="mostrarFormulario = !mostrarFormulario">
-    {{ mostrarFormulario ? 'Cerrar formulario' : 'Nuevo Turno' }}
-  </button>
-
-  <div *ngIf="mostrarFormulario">
-    <app-turnos-formulario (turnoCreado)="onTurnoCreado($event)"></app-turnos-formulario>
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-highlight">Turnos Agendados</h2>
+    <button (click)="mostrarFormulario = !mostrarFormulario"
+            class="px-4 py-2 rounded-lg bg-primary text-bg font-semibold hover:bg-highlight transition-colors duration-200">
+      Nuevo Turno
+    </button>
   </div>
 
-  <input type="date" [(ngModel)]="fechaSeleccionada" (change)="cargarTurnos()" />
+  <!-- Filtro por fecha -->
+  <div class="mb-4">
+    <label class="font-semibold mr-2">Filtrar por fecha:</label>
+    <input type="date" [(ngModel)]="fechaSeleccionada" (change)="cargarTurnos()"
+           class="p-2 border rounded-lg border-border-muted bg-bg-light text-text"/>
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Inicio</th>
-        <th>Fin</th>
-        <th>Proveedor</th>
-        <th>Estado</th>
-        <th>Jaula</th>
-        <th>Inicio Recepción</th>
-        <th>Fin Recepción</th>
-        <th>Acciones</th>
-        <th>Detalles</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let turno of turnos">
-        <td>{{ turno.horaInicioAgendamiento }}</td>
-        <td>{{ turno.horaFinAgendamiento }}</td>
-        <td>{{ turno.idProveedor }}</td>
-        <td>{{ estado(turno) }}</td>
-        <td>{{ turno.idJaula || '-' }}</td>
-        <td>{{ turno.horaInicioRecepcion || '-' }}</td>
-        <td>{{ turno.horaFinRecepcion || '-' }}</td>
-        <td>
-          <button *ngIf="estado(turno) === 'pendiente'" (click)="iniciarRecepcion(turno)">Iniciar</button>
-          <button *ngIf="estado(turno) === 'en recepcion'" (click)="finalizarRecepcion(turno)">Finalizar</button>
-        </td>
-        <td>
-          <button (click)="verDetalles(turno)">Ver detalles</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Tabla de turnos -->
+  <div class="overflow-x-auto relative z-10">
+    <table class="min-w-full border-collapse table-auto">
+      <thead class="bg-bg-light">
+        <tr>
+          <th class="px-4 py-2 border border-border text-left">Inicio</th>
+          <th class="px-4 py-2 border border-border text-left">Fin</th>
+          <th class="px-4 py-2 border border-border text-left">Proveedor</th>
+          <th class="px-4 py-2 border border-border text-left">Estado</th>
+          <th class="px-4 py-2 border border-border text-left">Jaula</th>
+          <th class="px-4 py-2 border border-border text-left">Inicio Recepción</th>
+          <th class="px-4 py-2 border border-border text-left">Fin Recepción</th>
+          <th class="px-4 py-2 border border-border text-left">Acciones</th>
+          <th class="px-4 py-2 border border-border text-left">Detalles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turno of turnos" class="hover:bg-bg-light transition-colors duration-150">
+          <td class="px-4 py-2 border border-border">{{ turno.horaInicioAgendamiento }}</td>
+          <td class="px-4 py-2 border border-border">{{ turno.horaFinAgendamiento }}</td>
+          <td class="px-4 py-2 border border-border">{{ turno.idProveedor }}</td>
+          <td class="px-4 py-2 border border-border capitalize">{{ estado(turno) }}</td>
+          <td class="px-4 py-2 border border-border">{{ turno.idJaula || '-' }}</td>
+          <td class="px-4 py-2 border border-border">{{ turno.horaInicioRecepcion || '-' }}</td>
+          <td class="px-4 py-2 border border-border">{{ turno.horaFinRecepcion || '-' }}</td>
+          <td class="px-4 py-2 border border-border space-x-2">
+            <button *ngIf="estado(turno) === 'pendiente'"
+                    (click)="iniciarRecepcion(turno)"
+                    class="px-2 py-1 bg-primary text-bg rounded hover:bg-highlight transition-colors">
+              Iniciar
+            </button>
+            <button *ngIf="estado(turno) === 'en recepcion'"
+                    (click)="finalizarRecepcion(turno)"
+                    class="px-2 py-1 bg-success text-bg rounded hover:bg-info transition-colors">
+              Finalizar
+            </button>
+          </td>
+          <td class="px-4 py-2 border border-border">
+            <button (click)="verDetalles(turno)"
+                    class="px-2 py-1 bg-secondary text-bg rounded hover:bg-highlight transition-colors">
+              Ver detalles
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="turnos.length === 0">
+          <td colspan="9" class="text-center py-4 text-text-muted">No hay turnos para esta fecha.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Formulario flotante estilo popup -->
+  <div *ngIf="mostrarFormulario"
+       class="absolute top-20 right-10 z-20 w-full max-w-3xl bg-bg p-6 rounded-xl shadow-2xl border border-border
+              transform transition-transform duration-300">
+    <!-- Botón cerrar -->
+    <button (click)="mostrarFormulario = false"
+            class="absolute top-4 right-4 text-text-muted hover:text-text text-2xl font-bold">&times;</button>
+
+    <!-- Formulario -->
+    <app-turnos-formulario (turnoCreado)="onTurnoCreado($event); mostrarFormulario=false"></app-turnos-formulario>
+  </div>
+
 </div>

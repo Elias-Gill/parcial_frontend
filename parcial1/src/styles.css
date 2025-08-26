@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+:root {
+  --bg-dark: #232323;
+  --bg: #fefefe;
+  --bg-light: oklch(1 0.065 68);
+  --text: oklch(0.15 0.13 68);
+  --text-muted: oklch(0.4 0.13 68);
+  --highlight: oklch(1 0.13 68);
+  --border: oklch(0.6 0.13 68);
+  --border-muted: oklch(0.7 0.13 68);
+  --primary: oklch(0.4 0.13 68);
+  --secondary: oklch(0.4 0.13 248);
+  --danger: oklch(0.5 0.13 30);
+  --warning: oklch(0.5 0.13 100);
+  --success: oklch(0.5 0.13 160);
+  --info: oklch(0.5 0.13 260);
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  --bg: var(--bg-dark);
+  --text: var(--text);
+  --border: var(--border);
+}
+
+@keyframes popup {
+  0%   { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-popup {
+  animation: popup 0.3s ease-out forwards;
+}

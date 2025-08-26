@@ -1,10 +1,47 @@
-<nav>
-  <a routerLink="/turnos">Turnos</a> |
-  <a routerLink="/proveedores">Proveedores</a> |
-  <a routerLink="/productos">Productos</a> |
-  <a routerLink="/jaulas">Jaulas</a>
+<nav class="bg-bg border-b border-border shadow-md sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex justify-between items-center h-14">
+
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <span class="text-highlight text-xl font-bold">Agendamiento</span>
+      </div>
+
+      <!-- Links Desktop -->
+      <div class="hidden md:flex space-x-6 text-text font-medium">
+        <a routerLink="/turnos" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Turnos</a>
+        <a routerLink="/proveedores" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Proveedores</a>
+        <a routerLink="/productos" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Productos</a>
+        <a routerLink="/jaulas" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Jaulas</a>
+      </div>
+
+      <!-- Botón menú móvil -->
+      <div class="md:hidden">
+        <button (click)="menuAbierto = !menuAbierto" class="text-text hover:text-highlight focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menú móvil -->
+  <div *ngIf="menuAbierto" class="md:hidden bg-bg-light border-t border-border">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <a routerLink="/turnos" routerLinkActive="text-highlight"
+         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Turnos</a>
+      <a routerLink="/proveedores" routerLinkActive="text-highlight"
+         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Proveedores</a>
+      <a routerLink="/productos" routerLinkActive="text-highlight"
+         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Productos</a>
+      <a routerLink="/jaulas" routerLinkActive="text-highlight"
+         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Jaulas</a>
+    </div>
+  </div>
 </nav>
 
-<main>
+<main class="max-w-6xl mx-auto p-4">
   <router-outlet></router-outlet>
 </main>
