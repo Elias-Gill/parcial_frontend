@@ -3,11 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-
-interface Proveedor {
-  idProveedor: number;
-  nombre: string;
-}
+import { Proveedor } from '../../models/proveedor';
 
 @Component({
   selector: 'app-proveedores-formulario',

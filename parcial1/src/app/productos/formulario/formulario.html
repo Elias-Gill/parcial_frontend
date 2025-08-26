@@ -3,6 +3,15 @@
   <form (ngSubmit)="guardar()">
     <label for="nombre">Nombre</label>
     <input id="nombre" type="text" [(ngModel)]="producto.nombre" name="nombre" required />
+
+    <label for="proveedor">Proveedor</label>
+    <select id="proveedor" [(ngModel)]="producto.idProveedor" name="idProveedor" required>
+      <option [ngValue]="undefined">-- Seleccionar proveedor --</option>
+      <option *ngFor="let prov of proveedores" [ngValue]="prov.idProveedor">
+        {{ prov.nombre }}
+      </option>
+    </select>
+
     <button type="submit">Guardar</button>
     <button type="button" (click)="router.navigate(['/productos'])">Cancelar</button>
   </form>

@@ -21,6 +21,7 @@
         <td>{{ proveedor.nombre }}</td>
         <td>
           <a [routerLink]="['/proveedores/editar', proveedor.idProveedor]">Editar</a>
+          <button (click)="eliminarProveedor(proveedor.idProveedor)">Eliminar</button>
         </td>
       </tr>
     </tbody>

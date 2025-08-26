@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Producto } from '../../models/producto';
+import { Proveedor } from '../../models/proveedor';
 
 @Component({
   selector: 'app-productos-formulario',
@@ -13,9 +14,10 @@ import { Producto } from '../../models/producto';
   styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent implements OnInit {
-  producto: Producto = { idProducto: 0, nombre: '' };
+  producto: Producto = { idProducto: 0, nombre: '', idProveedor: undefined };
   editMode = false;
   productos: Producto[] = [];
+  proveedores: Proveedor[] = []; // lista de proveedores para el select
 
   constructor(
     private route: ActivatedRoute,
@@ -24,9 +26,13 @@ export class FormularioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Cargar desde LocalStorage (SSR-safe gracias al servicio)
+    // Cargar productos
     this.productos = this.storage.getItem<Producto[]>('productos') || [];
 
+    // Cargar proveedores
+    this.proveedores = this.storage.getItem<Proveedor[]>('proveedores') || [];
+
+    // Revisar si es edición
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.editMode = true;
@@ -36,6 +42,11 @@ export class FormularioComponent implements OnInit {
   }
 
   guardar() {
+    if (!this.producto.idProveedor) {
+      alert('Debes seleccionar un proveedor.');
+      return;
+    }
+
     if (this.editMode) {
       const idx = this.productos.findIndex((p) => p.idProducto === this.producto.idProducto);
       if (idx !== -1) this.productos[idx] = { ...this.producto };

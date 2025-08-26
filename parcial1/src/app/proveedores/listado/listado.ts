@@ -3,11 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-
-interface Proveedor {
-  idProveedor: number;
-  nombre: string;
-}
+import { Proveedor } from '../../models/proveedor';
 
 @Component({
   selector: 'app-proveedores-listado',
@@ -36,5 +32,12 @@ export class ListadoComponent implements OnInit {
     return this.proveedores.filter((p) =>
       p.nombre.toLowerCase().includes(this.filtro.toLowerCase()),
     );
+  }
+
+  eliminarProveedor(id: number) {
+    if (!confirm('¿Seguro que querés eliminar este proveedor?')) return;
+
+    this.proveedores = this.proveedores.filter((p) => p.idProveedor !== id);
+    this.storage.setItem('proveedores', this.proveedores);
   }
 }

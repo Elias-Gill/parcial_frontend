@@ -12,6 +12,7 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
+        <th>Proveedor</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -19,8 +20,10 @@
       <tr *ngFor="let producto of productosFiltrados">
         <td>{{ producto.idProducto }}</td>
         <td>{{ producto.nombre }}</td>
+        <td>{{ getProveedorNombre(producto.idProveedor) }}</td>
         <td>
           <a [routerLink]="['/productos/editar', producto.idProducto]">Editar</a>
+          <button (click)="eliminarProducto(producto.idProducto)">Eliminar</button>
         </td>
       </tr>
     </tbody>
