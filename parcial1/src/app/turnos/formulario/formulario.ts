@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-import { Turno } from '../../models/turno';
+import { Turno, TurnoDetalle } from '../../models/turno';
+import { Proveedor } from '../../models/proveedor';
 import { Producto } from '../../models/producto';
-
-interface Proveedor { idProveedor: number; nombre: string; }
-interface Jaula { idJaula: number; nombre: string; }
 
 @Component({
   selector: 'app-turnos-formulario',
@@ -16,68 +13,111 @@ interface Jaula { idJaula: number; nombre: string; }
   imports: [CommonModule, FormsModule],
   styleUrls: ['./formulario.css'],
 })
-export class FormularioComponent implements OnInit {
-  turno: Turno = {
-    idTurno: 0,
-    fecha: '',
-    horaInicioAgendamiento: '',
-    horaFinAgendamiento: '',
-    idProveedor: 0,
-    idJaula: null,
-    productos: [], // array de ProductoDetalle
-  };
-
-  editMode = false;
+export class TurnosFormularioComponent implements OnInit {
+  @Output() turnoCreado = new EventEmitter<Turno>();
 
   proveedores: Proveedor[] = [];
-  jaulas: Jaula[] = [];
-  productosDisponibles: Producto[] = [];
+  productos: Producto[] = [];
+  turnos: Turno[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    public router: Router,
-    private storage: StorageService
-  ) {}
+  productosFiltrados: Producto[] = [];
+  cantidades: Record<number, number> = {}; // Para bindear cantidades por producto
+  filtroProducto: string = '';
 
   ngOnInit() {
     this.proveedores = this.storage.getItem<Proveedor[]>('proveedores') || [];
-    this.jaulas = this.storage.getItem<Jaula[]>('jaulas') || [];
-    this.productosDisponibles = this.storage.getItem<Producto[]>('productos') || [];
+    this.productos = this.storage.getItem<Producto[]>('productos') || [];
+    this.turnos = this.storage.getItem<Turno[]>('turnos') || [];
+  }
 
-    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
+  idProveedor: number | null = null;
+  fecha: string = new Date().toISOString().split('T')[0];
+  horaInicio: string = '';
+  horaFin: string = '';
+  productosSeleccionados: TurnoDetalle[] = [];
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.editMode = true;
-      const turnoExistente = turnos.find(t => t.idTurno === +id);
-      if (turnoExistente) {
-        this.turno = { ...turnoExistente };
-      }
+  constructor(private storage: StorageService) {}
+
+  filtrarProductos() {
+    if (!this.idProveedor) {
+      this.productosFiltrados = [];
+      return;
     }
+
+    const proveedorId = Number(this.idProveedor); // <-- convertimos a número
+
+    this.productosFiltrados = this.productos.filter(
+      (p) =>
+        p.idProveedor === proveedorId &&
+        (!this.filtroProducto ||
+          p.nombre.toLowerCase().includes(this.filtroProducto.toLowerCase())),
+    );
   }
 
-  agregarProducto() {
-    if (!this.turno.productos) this.turno.productos = [];
-    // esto ya es ProductoDetalle, no Producto
-    this.turno.productos.push({ idProducto: 0, cantidad: 1 });
-  }
+  agregarProducto(producto: Producto) {
+    const cantidad = this.cantidades[producto.idProducto];
+    if (!cantidad || cantidad <= 0) {
+      alert('Ingrese una cantidad válida');
+      return;
+    }
 
-  eliminarProducto(index: number) {
-    this.turno.productos?.splice(index, 1);
-  }
-
-  guardar() {
-    const turnos = this.storage.getItem<Turno[]>('turnos') || [];
-
-    if (this.editMode) {
-      const index = turnos.findIndex(t => t.idTurno === this.turno.idTurno);
-      if (index !== -1) turnos[index] = { ...this.turno };
+    // Evitar duplicados
+    const index = this.productosSeleccionados.findIndex(
+      (p) => p.idProducto === producto.idProducto,
+    );
+    if (index >= 0) {
+      this.productosSeleccionados[index].cantidad += cantidad;
     } else {
-      this.turno.idTurno = Date.now();
-      turnos.push({ ...this.turno });
+      this.productosSeleccionados.push({
+        idProducto: producto.idProducto,
+        nombreProducto: producto.nombre,
+        cantidad,
+      });
     }
 
-    this.storage.setItem('turnos', turnos);
-    this.router.navigate(['/turnos']);
+    this.cantidades[producto.idProducto] = 0; // reset input
+  }
+
+  eliminarProducto(idProducto: number) {
+    this.productosSeleccionados = this.productosSeleccionados.filter(
+      (p) => p.idProducto !== idProducto,
+    );
+  }
+
+  guardarTurno() {
+    if (
+      !this.idProveedor ||
+      !this.horaInicio ||
+      !this.horaFin ||
+      this.productosSeleccionados.length === 0
+    ) {
+      alert('Complete todos los campos');
+      return;
+    }
+
+    const nuevoTurno: Turno = {
+      idTurno: Date.now(),
+      fecha: this.fecha,
+      horaInicioAgendamiento: this.horaInicio,
+      horaFinAgendamiento: this.horaFin,
+      idProveedor: this.idProveedor,
+      idJaula: null,
+      productos: this.productosSeleccionados,
+    };
+
+    this.turnos.push(nuevoTurno);
+    this.storage.setItem('turnos', this.turnos);
+    this.turnoCreado.emit(nuevoTurno);
+    this.limpiarFormulario();
+  }
+
+  limpiarFormulario() {
+    this.idProveedor = null;
+    this.horaInicio = '';
+    this.horaFin = '';
+    this.productosSeleccionados = [];
+    this.cantidades = {};
+    this.productosFiltrados = [];
+    this.filtroProducto = '';
   }
 }

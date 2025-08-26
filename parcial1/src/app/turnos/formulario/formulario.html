@@ -1,45 +1,42 @@
-<section>
-  <h2>{{ editMode ? 'Editar Turno' : 'Nuevo Turno' }}</h2>
+<div>
+  <h2>Nuevo Turno</h2>
 
-  <form (ngSubmit)="guardar()">
-    <label for="fecha">Fecha</label>
-    <input id="fecha" type="date" [(ngModel)]="turno.fecha" name="fecha" required />
+  <label>Proveedor:</label>
+  <select [(ngModel)]="idProveedor" (change)="filtrarProductos()">
+    <option value="" disabled selected>Seleccione un proveedor</option>
+    <option *ngFor="let p of proveedores" [value]="p.idProveedor">{{ p.nombre }}</option>
+  </select>
 
-    <label for="horaInicio">Hora Inicio</label>
-    <select id="horaInicio" [(ngModel)]="turno.horaInicioAgendamiento" name="horaInicio" required>
-      <option *ngFor="let h of ['07:00','07:30','08:00','08:30','09:00']" [value]="h">{{ h }}</option>
-    </select>
+  <label>Fecha:</label>
+  <input type="date" [(ngModel)]="fecha" />
 
-    <label for="horaFin">Hora Fin</label>
-    <select id="horaFin" [(ngModel)]="turno.horaFinAgendamiento" name="horaFin" required>
-      <option *ngFor="let h of ['07:30','08:00','08:30','09:00','09:30']" [value]="h">{{ h }}</option>
-    </select>
+  <label>Hora inicio:</label>
+  <input type="time" [(ngModel)]="horaInicio" />
 
-    <label for="proveedor">Proveedor</label>
-    <select id="proveedor" [(ngModel)]="turno.idProveedor" name="proveedor" required>
-      <option *ngFor="let p of proveedores" [value]="p.idProveedor">{{ p.nombre }}</option>
-    </select>
+  <label>Hora fin:</label>
+  <input type="time" [(ngModel)]="horaFin" />
 
-    <label for="jaula">Jaula</label>
-    <select id="jaula" [(ngModel)]="turno.idJaula" name="jaula">
-      <option [value]="null">--Seleccione--</option>
-      <option *ngFor="let j of jaulas" [value]="j.idJaula">{{ j.nombre }}</option>
-    </select>
+  <h3>Productos</h3>
+  <ul>
+    <li *ngFor="let p of productosFiltrados">
+      {{ p.nombre }}
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="cantidades[p.idProducto]"
+        placeholder="Cantidad"
+      />
+      <button (click)="agregarProducto(p)">Agregar</button>
+    </li>
+  </ul>
 
-    <h3>Productos</h3>
-    <div *ngFor="let p of turno.productos; let i = index">
-      <select [(ngModel)]="p.idProducto" name="producto{{i}}" required>
-        <option [value]="0">--Seleccione--</option>
-        <option *ngFor="let prod of productosDisponibles" [value]="prod.idProducto">{{ prod.nombre }}</option>
-      </select>
-      <input type="number" [(ngModel)]="p.cantidad" name="cantidad{{i}}" min="1" required />
-      <button type="button" (click)="eliminarProducto(i)">Eliminar</button>
-    </div>
-    <button type="button" (click)="agregarProducto()">+ Agregar Producto</button>
+  <h4>Seleccionados:</h4>
+  <ul>
+    <li *ngFor="let prod of productosSeleccionados">
+      {{ prod.nombreProducto }} - {{ prod.cantidad }}
+      <button (click)="eliminarProducto(prod.idProducto)">Eliminar</button>
+    </li>
+  </ul>
 
-    <div>
-      <button type="submit">Guardar</button>
-      <button type="button" (click)="router.navigate(['/turnos'])">Cancelar</button>
-    </div>
-  </form>
-</section>
+  <button (click)="guardarTurno()">Guardar Turno</button>
+</div>

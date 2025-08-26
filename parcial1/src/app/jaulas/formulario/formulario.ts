@@ -3,12 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
-
-interface Jaula {
-  idJaula: number;
-  nombre: string;
-  enUso: 'S' | 'N';
-}
+import { Jaula } from '../../models/jaula';
 
 @Component({
   selector: 'app-jaulas-formulario',
@@ -18,7 +13,7 @@ interface Jaula {
   styleUrls: ['./formulario.css'],
 })
 export class FormularioComponent {
-  jaula: Jaula = { idJaula: 0, nombre: '', enUso: 'N' };
+  jaula: Jaula = { idJaula: 0, nombre: '', enUso: false };
   editMode = false;
   jaulas: Jaula[] = [];
 

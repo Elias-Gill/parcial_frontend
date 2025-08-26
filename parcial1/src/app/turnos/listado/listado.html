@@ -1,32 +1,47 @@
-<section>
-  <h2>Turnos Agendados</h2>
+<div>
+  <h2>Turnos agendados</h2>
+
+  <button (click)="mostrarFormulario = !mostrarFormulario">
+    {{ mostrarFormulario ? 'Cerrar formulario' : 'Nuevo Turno' }}
+  </button>
+
+  <div *ngIf="mostrarFormulario">
+    <app-turnos-formulario (turnoCreado)="onTurnoCreado($event)"></app-turnos-formulario>
+  </div>
+
+  <input type="date" [(ngModel)]="fechaSeleccionada" (change)="cargarTurnos()" />
 
   <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Hora Inicio</th>
-        <th>Hora Fin</th>
+        <th>Inicio</th>
+        <th>Fin</th>
         <th>Proveedor</th>
+        <th>Estado</th>
         <th>Jaula</th>
+        <th>Inicio Recepción</th>
+        <th>Fin Recepción</th>
         <th>Acciones</th>
+        <th>Detalles</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let t of turnos">
-        <td>{{ t.idTurno }}</td>
-        <td>{{ t.fecha }}</td>
-        <td>{{ t.horaInicioAgendamiento }}</td>
-        <td>{{ t.horaFinAgendamiento }}</td>
-        <td>{{ t.idProveedor }}</td>
-        <td>{{ t.idJaula || '-' }}</td>
+      <tr *ngFor="let turno of turnos">
+        <td>{{ turno.horaInicioAgendamiento }}</td>
+        <td>{{ turno.horaFinAgendamiento }}</td>
+        <td>{{ turno.idProveedor }}</td>
+        <td>{{ estado(turno) }}</td>
+        <td>{{ turno.idJaula || '-' }}</td>
+        <td>{{ turno.horaInicioRecepcion || '-' }}</td>
+        <td>{{ turno.horaFinRecepcion || '-' }}</td>
         <td>
-          <button (click)="editarTurno(t)">Editar</button>
+          <button *ngIf="estado(turno) === 'pendiente'" (click)="iniciarRecepcion(turno)">Iniciar</button>
+          <button *ngIf="estado(turno) === 'en recepcion'" (click)="finalizarRecepcion(turno)">Finalizar</button>
+        </td>
+        <td>
+          <button (click)="verDetalles(turno)">Ver detalles</button>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <button (click)="nuevoTurno()">+ Nuevo Turno</button>
-</section>
+</div>

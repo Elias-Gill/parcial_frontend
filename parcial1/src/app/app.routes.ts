@@ -7,11 +7,6 @@ export const routes: Routes = [
     loadChildren: () => import('./turnos/turnos-routing-module').then((m) => m.TurnosRoutingModule),
   },
   {
-    path: 'recepcion',
-    loadChildren: () =>
-      import('./recepcion/recepcion-routing-module').then((m) => m.RecepcionRoutingModule),
-  },
-  {
     path: 'proveedores',
     loadChildren: () =>
       import('./proveedores/proveedores-routing-module').then((m) => m.ProveedoresRoutingModule),

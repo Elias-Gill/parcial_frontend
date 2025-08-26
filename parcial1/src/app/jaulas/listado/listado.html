@@ -20,13 +20,13 @@
       <tr *ngFor="let jaula of jaulasFiltradas">
         <td>{{ jaula.idJaula }}</td>
         <td>{{ jaula.nombre }}</td>
-        <td>{{ jaula.enUso === 'S' ? 'Sí' : 'No' }}</td>
+        <td>{{ jaula.enUso ? 'Sí' : 'No' }}</td>
         <td>
           <a [routerLink]="['/jaulas/editar', jaula.idJaula]">Editar</a>
+          <button (click)="eliminarJaula(jaula.idJaula)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
-
   <button routerLink="/jaulas/nuevo">+ Nueva Jaula</button>
 </section>
