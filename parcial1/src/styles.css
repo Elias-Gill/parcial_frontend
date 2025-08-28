@@ -3,25 +3,24 @@
 @import "tailwindcss";
 
 :root {
-  
   --bg-primary: #0a0a0a;
   --bg-secondary: #1a1a1a;
   --bg-tertiary: #2a2a2a;
   --bg-glass: rgba(26, 26, 26, 0.8);
-  
+
   --text-primary: #ffffff;
   --text-secondary: #e5e7eb;
   --text-muted: #9ca3af;
-  
+
   --accent-primary: #3b82f6;
   --accent-secondary: #8b5cf6;
   --accent-success: #10b981;
   --accent-warning: #f59e0b;
   --accent-danger: #ef4444;
-  
+
   --border-primary: #374151;
   --border-secondary: #4b5563;
-  
+
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -35,6 +34,7 @@
 html, body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background-attachment: fixed; /* Hace que el gradiente quede fijo */
   color: var(--text-primary);
   margin: 0;
   padding: 0;
@@ -210,7 +210,7 @@ html, body {
   border-collapse: collapse;
   background: #000000;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -219,7 +219,7 @@ html, body {
 /* Contenedor de tabla con scroll horizontal */
 .table-container {
   overflow-x: auto;
-  box-shadow: 
+  box-shadow:
     var(--shadow-lg),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -361,7 +361,7 @@ html, body {
     padding: 16px;
     margin: 8px;
   }
-  
+
   .btn {
     padding: 10px 20px;
     font-size: 13px;
