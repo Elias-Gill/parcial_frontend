@@ -26,6 +26,14 @@ export class ListadoComponent {
     return this.jaulas.filter((j) => j.nombre.toLowerCase().includes(this.filtro.toLowerCase()));
   }
 
+  get jaulasDisponibles(): number {
+    return this.jaulas.filter(j => !j.enUso).length;
+  }
+
+  get jaulasEnUso(): number {
+    return this.jaulas.filter(j => j.enUso).length;
+  }
+
   eliminarJaula(id: number) {
     if (!confirm('¿Seguro que querés eliminar esta jaula?')) return;
 

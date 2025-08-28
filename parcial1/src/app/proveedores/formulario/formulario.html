@@ -1,11 +1,128 @@
-<section>
-  <h2>{{ editMode ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+<div class="animate-fade-in">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <ol class="flex items-center space-x-2 text-sm text-gray-400">
+      <li>
+        <a routerLink="/proveedores" class="hover:text-blue-400 transition-colors">Proveedores</a>
+      </li>
+      <li>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </li>
+      <li class="text-white font-medium">
+        {{ editMode ? 'Editar' : 'Nuevo' }} Proveedor
+      </li>
+    </ol>
+  </nav>
 
-  <form (ngSubmit)="guardar()">
-    <label for="nombre">Nombre</label>
-    <input id="nombre" type="text" [(ngModel)]="proveedor.nombre" name="nombre" required />
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-white mb-2">
+      {{ editMode ? 'Editar Proveedor' : 'Nuevo Proveedor' }}
+    </h1>
+    <p class="text-gray-400">
+      {{ editMode ? 'Actualiza la información del proveedor' : 'Ingresa los datos del nuevo proveedor' }}
+    </p>
+  </div>
 
-    <button type="submit">Guardar</button>
-    <button type="button" (click)="router.navigate(['/proveedores'])">Cancelar</button>
-  </form>
-</section>
+  
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <div class="lg:col-span-2">
+      <div class="card">
+        <form (ngSubmit)="guardar()" class="space-y-6">
+          <!-- Campo nombre -->
+          <div>
+            <label for="nombre" class="block text-sm font-semibold text-gray-200 mb-2">
+              Nombre del Proveedor
+              <span class="text-red-400 ml-1">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+              </div>
+              <input 
+                id="nombre" 
+                type="text" 
+                [(ngModel)]="proveedor.nombre" 
+                name="nombre" 
+                required 
+                placeholder="Ej: Distribuidora ABC S.A."
+                class="input pl-12"
+              />
+            </div>
+            <p class="text-xs text-gray-400 mt-2">
+              Ingresa el nombre completo o razón social del proveedor
+            </p>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-700">
+            <button 
+              type="button" 
+              (click)="router.navigate(['/proveedores'])"
+              class="btn btn-secondary">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              Cancelar
+            </button>
+            
+            <button 
+              type="submit" 
+              class="btn btn-primary">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              {{ editMode ? 'Actualizar' : 'Crear' }} Proveedor
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Panel lateral de información -->
+    <div class="lg:col-span-1">
+      <div class="card">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white">Información</h3>
+        </div>
+        
+        <div class="space-y-4 text-sm text-gray-300">
+          <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+            <h4 class="font-semibold text-blue-400 mb-2">¿Qué es un proveedor?</h4>
+            <p class="text-gray-300">
+              Los proveedores son empresas o personas que suministran productos para la recepción en tus instalaciones.
+            </p>
+          </div>
+          
+          <div class="bg-gray-700/50 rounded-lg p-4">
+            <h4 class="font-semibold text-gray-200 mb-2">Consejos:</h4>
+            <ul class="space-y-1 text-gray-400">
+              <li class="flex items-start space-x-2">
+                <span class="text-green-400 mt-1">•</span>
+                <span>Usa nombres descriptivos y únicos</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-green-400 mt-1">•</span>
+                <span>Incluye la razón social completa</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-green-400 mt-1">•</span>
+                <span>Evita abreviaciones confusas</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

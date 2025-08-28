@@ -19,7 +19,6 @@ input {
 }
 
 button {
-  margin-top: 1rem;
   padding: 0.6rem 1rem;
   cursor: pointer;
 }

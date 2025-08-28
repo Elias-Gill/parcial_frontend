@@ -1,23 +1,58 @@
-<nav class="bg-bg border-b border-border shadow-md sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="flex justify-between items-center h-14">
+<nav class="glass sticky top-0 z-50 border-b border-gray-800">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex justify-between items-center h-16">
 
-      <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <span class="text-highlight text-xl font-bold">Agendamiento</span>
+      <!-- Logo Moderno -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            AgendaPro
+          </span>
+          <div class="text-xs text-gray-400 font-medium">Gestión de Recepción</div>
+        </div>
       </div>
 
       <!-- Links Desktop -->
-      <div class="hidden md:flex space-x-6 text-text font-medium">
-        <a routerLink="/turnos" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Turnos</a>
-        <a routerLink="/proveedores" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Proveedores</a>
-        <a routerLink="/productos" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Productos</a>
-        <a routerLink="/jaulas" routerLinkActive="text-highlight" class="hover:text-highlight transition-colors">Jaulas</a>
+      <div class="hidden md:flex space-x-2">
+        <a routerLink="/turnos" routerLinkActive="bg-blue-600 text-white" 
+           class="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span class="font-medium">Turnos</span>
+        </a>
+        <a routerLink="/proveedores" routerLinkActive="bg-blue-600 text-white"
+           class="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          <span class="font-medium">Proveedores</span>
+        </a>
+        <a routerLink="/productos" routerLinkActive="bg-blue-600 text-white"
+           class="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+          </svg>
+          <span class="font-medium">Productos</span>
+        </a>
+        <a routerLink="/jaulas" routerLinkActive="bg-blue-600 text-white"
+           class="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+          <span class="font-medium">Jaulas</span>
+        </a>
       </div>
 
       <!-- Botón menú móvil -->
       <div class="md:hidden">
-        <button (click)="menuAbierto = !menuAbierto" class="text-text hover:text-highlight focus:outline-none">
+        <button (click)="menuAbierto = !menuAbierto" 
+                class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M4 6h16M4 12h16M4 18h16"></path>
@@ -28,20 +63,40 @@
   </div>
 
   <!-- Menú móvil -->
-  <div *ngIf="menuAbierto" class="md:hidden bg-bg-light border-t border-border">
-    <div class="px-2 pt-2 pb-3 space-y-1">
-      <a routerLink="/turnos" routerLinkActive="text-highlight"
-         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Turnos</a>
-      <a routerLink="/proveedores" routerLinkActive="text-highlight"
-         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Proveedores</a>
-      <a routerLink="/productos" routerLinkActive="text-highlight"
-         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Productos</a>
-      <a routerLink="/jaulas" routerLinkActive="text-highlight"
-         class="block px-3 py-2 rounded-md text-text hover:text-highlight transition-colors">Jaulas</a>
+  <div *ngIf="menuAbierto" class="md:hidden border-t border-gray-800 bg-gray-900/50 backdrop-blur-sm animate-slide-in">
+    <div class="px-4 py-4 space-y-2">
+      <a routerLink="/turnos" routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <span class="font-medium">Turnos</span>
+      </a>
+      <a routerLink="/proveedores" routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+        <span class="font-medium">Proveedores</span>
+      </a>
+      <a routerLink="/productos" routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        </svg>
+        <span class="font-medium">Productos</span>
+      </a>
+      <a routerLink="/jaulas" routerLinkActive="bg-blue-600 text-white"
+         class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+        <span class="font-medium">Jaulas</span>
+      </a>
     </div>
   </div>
 </nav>
 
-<main class="max-w-6xl mx-auto p-4">
+<main class="max-w-7xl mx-auto px-6 py-8 min-h-screen">
   <router-outlet></router-outlet>
 </main>

@@ -8,7 +8,7 @@ table {
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid #4b5563;
   padding: 0.6rem;
 }
 
@@ -19,5 +19,4 @@ th {
 button {
   cursor: pointer;
   padding: 0.4rem 0.8rem;
-  margin-top: 0.5rem;
 }

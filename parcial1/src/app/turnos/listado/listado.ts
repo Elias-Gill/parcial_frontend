@@ -40,6 +40,46 @@ export class TurnosListadoComponent implements OnInit {
     return calcularEstadoTurno(turno);
   }
 
+  get turnosPendientes(): number {
+    return this.turnos.filter(t => this.estado(t) === 'pendiente').length;
+  }
+
+  get turnosEnRecepcion(): number {
+    return this.turnos.filter(t => this.estado(t) === 'en recepcion').length;
+  }
+
+  get turnosFinalizados(): number {
+    return this.turnos.filter(t => this.estado(t) === 'completado').length;
+  }
+
+  getEstadoBadgeClass(turno: Turno): string {
+    const estadoTurno = this.estado(turno);
+    switch (estadoTurno) {
+      case 'pendiente':
+        return 'badge badge-warning';
+      case 'en recepcion':
+        return 'badge badge-primary';
+      case 'completado':
+        return 'badge badge-success';
+      default:
+        return 'badge badge-secondary';
+    }
+  }
+
+  getEstadoDotClass(turno: Turno): string {
+    const estadoTurno = this.estado(turno);
+    switch (estadoTurno) {
+      case 'pendiente':
+        return 'w-2 h-2 bg-yellow-400 rounded-full';
+      case 'en recepcion':
+        return 'w-2 h-2 bg-blue-400 rounded-full';
+      case 'completado':
+        return 'w-2 h-2 bg-green-400 rounded-full';
+      default:
+        return 'w-2 h-2 bg-gray-400 rounded-full';
+    }
+  }
+
   iniciarRecepcion(turno: Turno) {
     const jaulaLibre = this.jaulas.find((j) => !j.enUso);
     if (!jaulaLibre) {

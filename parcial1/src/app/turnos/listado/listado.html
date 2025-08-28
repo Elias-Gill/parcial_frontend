@@ -1,81 +1,269 @@
-<div class="max-w-6xl mx-auto p-6 bg-bg rounded-xl shadow-lg text-text relative">
-
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-3xl font-bold text-highlight">Turnos Agendados</h2>
-    <button (click)="mostrarFormulario = !mostrarFormulario"
-            class="px-4 py-2 rounded-lg bg-primary text-bg font-semibold hover:bg-highlight transition-colors duration-200">
+<div class="animate-fade-in">
+  <!-- Header con acción principal -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+    <div class="mb-4 sm:mb-0">
+      <h1 class="text-3xl font-bold text-white mb-2">Turnos Agendados</h1>
+      <p class="text-gray-400">Gestiona los turnos de recepción de productos</p>
+    </div>
+    <button 
+      (click)="mostrarFormulario = !mostrarFormulario"
+      class="btn btn-primary animate-glow">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
       Nuevo Turno
     </button>
   </div>
 
-  <!-- Filtro por fecha -->
-  <div class="mb-4">
-    <label class="font-semibold mr-2">Filtrar por fecha:</label>
-    <input type="date" [(ngModel)]="fechaSeleccionada" (change)="cargarTurnos()"
-           class="p-2 border rounded-lg border-border-muted bg-bg-light text-text"/>
+  <!-- Estadísticas rápidas -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="card bg-gradient-to-br from-blue-900/50 to-indigo-900/50 border-blue-700/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-white">{{ turnosPendientes }}</div>
+          <div class="text-sm text-blue-300">Pendientes</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-yellow-700/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-white">{{ turnosEnRecepcion }}</div>
+          <div class="text-sm text-yellow-300">En Recepción</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card bg-gradient-to-br from-green-900/50 to-emerald-900/50 border-green-700/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-white">{{ turnosFinalizados }}</div>
+          <div class="text-sm text-green-300">Finalizados</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-purple-700/50">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-white">{{ turnos.length }}</div>
+          <div class="text-sm text-purple-300">Total</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Tabla de turnos -->
-  <div class="overflow-x-auto relative z-10">
-    <table class="min-w-full border-collapse table-auto">
-      <thead class="bg-bg-light">
-        <tr>
-          <th class="px-4 py-2 border border-border text-left">Inicio</th>
-          <th class="px-4 py-2 border border-border text-left">Fin</th>
-          <th class="px-4 py-2 border border-border text-left">Proveedor</th>
-          <th class="px-4 py-2 border border-border text-left">Estado</th>
-          <th class="px-4 py-2 border border-border text-left">Jaula</th>
-          <th class="px-4 py-2 border border-border text-left">Inicio Recepción</th>
-          <th class="px-4 py-2 border border-border text-left">Fin Recepción</th>
-          <th class="px-4 py-2 border border-border text-left">Acciones</th>
-          <th class="px-4 py-2 border border-border text-left">Detalles</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let turno of turnos" class="hover:bg-bg-light transition-colors duration-150">
-          <td class="px-4 py-2 border border-border">{{ turno.horaInicioAgendamiento }}</td>
-          <td class="px-4 py-2 border border-border">{{ turno.horaFinAgendamiento }}</td>
-          <td class="px-4 py-2 border border-border">{{ turno.idProveedor }}</td>
-          <td class="px-4 py-2 border border-border capitalize">{{ estado(turno) }}</td>
-          <td class="px-4 py-2 border border-border">{{ turno.idJaula || '-' }}</td>
-          <td class="px-4 py-2 border border-border">{{ turno.horaInicioRecepcion || '-' }}</td>
-          <td class="px-4 py-2 border border-border">{{ turno.horaFinRecepcion || '-' }}</td>
-          <td class="px-4 py-2 border border-border space-x-2">
-            <button *ngIf="estado(turno) === 'pendiente'"
-                    (click)="iniciarRecepcion(turno)"
-                    class="px-2 py-1 bg-primary text-bg rounded hover:bg-highlight transition-colors">
-              Iniciar
-            </button>
-            <button *ngIf="estado(turno) === 'en recepcion'"
-                    (click)="finalizarRecepcion(turno)"
-                    class="px-2 py-1 bg-success text-bg rounded hover:bg-info transition-colors">
-              Finalizar
-            </button>
-          </td>
-          <td class="px-4 py-2 border border-border">
-            <button (click)="verDetalles(turno)"
-                    class="px-2 py-1 bg-secondary text-bg rounded hover:bg-highlight transition-colors">
-              Ver detalles
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="turnos.length === 0">
-          <td colspan="9" class="text-center py-4 text-text-muted">No hay turnos para esta fecha.</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Tarjeta principal -->
+  <div class="card">
+    <!-- Filtro por fecha -->
+    <div class="mb-6">
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <label class="text-sm font-medium text-gray-300">Filtrar por fecha:</label>
+        </div>
+        <input 
+          type="date" 
+          [(ngModel)]="fechaSeleccionada" 
+          (change)="cargarTurnos()"
+          class="input max-w-xs"
+        />
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Horario</th>
+            <th>Proveedor</th>
+            <th class="w-32 text-center">Estado</th>
+            <th>Jaula</th>
+            <th>Recepción</th>
+            <th class="w-48 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of turnos; let i = index" 
+              class="animate-slide-in" 
+              [style.animation-delay]="i * 50 + 'ms'">
+            <td>
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-sm font-medium text-white">{{ turno.horaInicioAgendamiento }}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-sm text-gray-400">{{ turno.horaFinAgendamiento }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-700 rounded-full flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-white">Proveedor #{{ turno.idProveedor }}</div>
+                  <div class="text-sm text-gray-400">ID: {{ turno.idProveedor }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span [class]="getEstadoBadgeClass(turno)">
+                <div [class]="getEstadoDotClass(turno)"></div>
+                {{ estado(turno) | titlecase }}
+              </span>
+            </td>
+            <td>
+              <div *ngIf="turno.idJaula; else noJaula" class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-700 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                </div>
+                <span class="text-sm font-medium text-white">Jaula {{ turno.idJaula }}</span>
+              </div>
+              <ng-template #noJaula>
+                <span class="text-sm text-gray-400">Sin asignar</span>
+              </ng-template>
+            </td>
+            <td>
+              <div class="space-y-1">
+                <div *ngIf="turno.horaInicioRecepcion" class="flex items-center space-x-2">
+                  <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span class="text-sm text-gray-300">{{ turno.horaInicioRecepcion }}</span>
+                </div>
+                <div *ngIf="turno.horaFinRecepcion" class="flex items-center space-x-2">
+                  <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                  <span class="text-sm text-gray-300">{{ turno.horaFinRecepcion }}</span>
+                </div>
+                <div *ngIf="!turno.horaInicioRecepcion && !turno.horaFinRecepcion" class="text-sm text-gray-500">
+                  Pendiente
+                </div>
+              </div>
+            </td>
+            <td class="text-right">
+              <div class="flex items-center justify-end space-x-2">
+                <button *ngIf="estado(turno) === 'pendiente'"
+                        (click)="iniciarRecepcion(turno)"
+                        class="btn btn-primary text-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2-10a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  Iniciar
+                </button>
+                <button *ngIf="estado(turno) === 'en recepcion'"
+                        (click)="finalizarRecepcion(turno)"
+                        class="btn btn-success text-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  Finalizar
+                </button>
+                <button (click)="verDetalles(turno)"
+                        class="btn btn-secondary text-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                  Ver
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Estado vacío -->
+      <div *ngIf="turnos.length === 0" class="text-center py-12">
+        <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-blue-600 to-purple-700 rounded-full flex items-center justify-center">
+          <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-white mb-2">No hay turnos</h3>
+        <p class="text-gray-400 mb-6">
+          No hay turnos agendados para esta fecha
+        </p>
+        <button (click)="mostrarFormulario = true" class="btn btn-primary">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Agendar Primer Turno
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer con información -->
+    <div class="mt-6 flex items-center justify-between text-sm text-gray-400 border-t border-gray-700 pt-4">
+      <span>
+        {{ turnos.length }} turnos para {{ fechaSeleccionada || 'hoy' }}
+      </span>
+      <span class="text-purple-400">
+        Actualizado automáticamente
+      </span>
+    </div>
   </div>
 
-  <!-- Formulario flotante estilo popup -->
+  <!-- Formulario modal -->
   <div *ngIf="mostrarFormulario"
-       class="absolute top-20 right-10 z-20 w-full max-w-3xl bg-bg p-6 rounded-xl shadow-2xl border border-border
-              transform transition-transform duration-300">
-    <!-- Botón cerrar -->
-    <button (click)="mostrarFormulario = false"
-            class="absolute top-4 right-4 text-text-muted hover:text-text text-2xl font-bold">&times;</button>
+       class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
+    <div class="bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-4xl m-4 max-h-[90vh] overflow-y-auto">
+      <!-- Header del modal -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-700">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-700 rounded-full flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-white">Nuevo Turno</h3>
+        </div>
+        <button 
+          (click)="mostrarFormulario = false"
+          class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 rounded-full transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
 
-    <!-- Formulario -->
-    <app-turnos-formulario (turnoCreado)="onTurnoCreado($event); mostrarFormulario=false"></app-turnos-formulario>
+      <!-- Contenido del modal -->
+      <div class="p-6">
+        <app-turnos-formulario (turnoCreado)="onTurnoCreado($event); mostrarFormulario=false"></app-turnos-formulario>
+      </div>
+    </div>
   </div>
-
 </div>
