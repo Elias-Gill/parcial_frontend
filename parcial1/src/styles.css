@@ -84,7 +84,6 @@ html, body {
 }
 
 .card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -92,7 +91,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 8px 20px;
   border-radius: 12px;
   font-weight: 600;
   font-size: 14px;
@@ -125,7 +124,6 @@ html, body {
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
 
@@ -137,7 +135,6 @@ html, body {
 
 .btn-secondary:hover {
   background: var(--border-secondary);
-  transform: translateY(-2px);
 }
 
 .btn-danger {
@@ -146,7 +143,6 @@ html, body {
 }
 
 .btn-danger:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
 }
 
@@ -363,7 +359,7 @@ html, body {
   }
 
   .btn {
-    padding: 10px 20px;
+    padding: 8px 20px;
     font-size: 13px;
   }
 }
