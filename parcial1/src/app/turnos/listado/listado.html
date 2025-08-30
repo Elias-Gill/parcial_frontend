@@ -5,7 +5,7 @@
       <h1 class="text-3xl font-bold text-white mb-2">Turnos Agendados</h1>
       <p class="text-gray-400">Gestiona los turnos de recepción de productos</p>
     </div>
-    <button 
+    <button
       (click)="mostrarFormulario = !mostrarFormulario"
       class="btn btn-primary animate-glow">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="card bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-yellow-700/50">
       <div class="flex items-center space-x-3">
         <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="card bg-gradient-to-br from-green-900/50 to-emerald-900/50 border-green-700/50">
       <div class="flex items-center space-x-3">
         <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="card bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-purple-700/50">
       <div class="flex items-center space-x-3">
         <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
@@ -78,16 +78,16 @@
   <div class="card">
     <!-- Filtro por fecha -->
     <div class="mb-6">
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2">
         <div class="flex items-center space-x-2">
           <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
           <label class="text-sm font-medium text-gray-300">Filtrar por fecha:</label>
         </div>
-        <input 
-          type="date" 
-          [(ngModel)]="fechaSeleccionada" 
+        <input
+          type="date"
+          [(ngModel)]="fechaSeleccionada"
           (change)="cargarTurnos()"
           class="input max-w-xs"
         />
@@ -108,8 +108,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let turno of turnos; let i = index" 
-              class="animate-slide-in" 
+          <tr *ngFor="let turno of turnos; let i = index"
+              class="animate-slide-in"
               [style.animation-delay]="i * 50 + 'ms'">
             <td>
               <div class="space-y-1">
@@ -251,7 +251,7 @@
           </div>
           <h3 class="text-xl font-semibold text-white">Nuevo Turno</h3>
         </div>
-        <button 
+        <button
           (click)="mostrarFormulario = false"
           class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 rounded-full transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
