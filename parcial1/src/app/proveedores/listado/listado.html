@@ -116,4 +116,9 @@
       </span>
     </div>
   </div>
+  <app-confirm-dialog 
+    *ngIf="mostrarDialog"
+    (confirm)="confirmarEliminacion()"
+    (cancel)="cancelarEliminacion()">
+  </app-confirm-dialog>
 </div>

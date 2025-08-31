@@ -16,6 +16,7 @@ export class FormularioComponent {
   jaula: Jaula = { idJaula: 0, nombre: '', enUso: false };
   editMode = false;
   jaulas: Jaula[] = [];
+  mostrarTooltip = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +36,18 @@ export class FormularioComponent {
     }
   }
 
+  onInputChange() {
+    if (this.mostrarTooltip && this.jaula.nombre.trim() !== '') {
+      this.mostrarTooltip = false;
+    }
+  }
+
   guardar() {
+    // Validar nombre
+    if (!this.jaula.nombre || this.jaula.nombre.trim() === '') {
+      this.mostrarTooltip = true;
+      return;
+    }
     if (this.editMode) {
       // Actualizar jaula existente
       const index = this.jaulas.findIndex((j) => j.idJaula === this.jaula.idJaula);

@@ -30,7 +30,8 @@
           <!-- Campo nombre -->
           <div class="animate-slide-in">
             <label for="nombre" class="block text-sm font-medium text-gray-300 mb-2">
-              Nombre del Producto *
+              Nombre del Producto
+              <span class="text-red-400 ml-1">*</span>
             </label>
             <input 
               id="nombre" 
@@ -39,9 +40,18 @@
               name="nombre" 
               required
               placeholder="Ej: Manzanas Rojas Premium"
+              (input)="onNombreChange()"
+              [class.border-red-500]="mostrarTooltipNombre"
               class="input"
             />
-            <p class="mt-2 text-sm text-gray-400">
+            <!-- Mensaje de error -->
+            <div *ngIf="mostrarTooltipNombre" class="mt-1 flex items-center text-red-400 text-sm">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              El campo nombre es requerido
+            </div>
+            <p *ngIf="!mostrarTooltipNombre" class="mt-2 text-sm text-gray-400">
               Ingresa un nombre descriptivo para el producto
             </p>
           </div>
@@ -49,7 +59,8 @@
           <!-- Campo proveedor -->
           <div class="animate-slide-in" [style.animation-delay]="'100ms'">
             <label for="proveedor" class="block text-sm font-medium text-gray-300 mb-2">
-              Proveedor *
+              Proveedor
+              <span class="text-red-400 ml-1">*</span>
             </label>
             <div class="relative">
               <select 
@@ -57,6 +68,8 @@
                 [(ngModel)]="producto.idProveedor" 
                 name="idProveedor" 
                 required
+                (change)="onProveedorChange()"
+                [class.border-red-500]="mostrarTooltipProveedor"
                 class="input appearance-none pr-10">
                 <option [ngValue]="undefined">-- Seleccionar proveedor --</option>
                 <option *ngFor="let prov of proveedores" [ngValue]="prov.idProveedor">
@@ -69,7 +82,14 @@
                 </svg>
               </div>
             </div>
-            <p class="mt-2 text-sm text-gray-400">
+            <!-- Mensaje de error -->
+            <div *ngIf="mostrarTooltipProveedor" class="mt-1 flex items-center text-red-400 text-sm">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Debes seleccionar un proveedor
+            </div>
+            <p *ngIf="!mostrarTooltipProveedor" class="mt-2 text-sm text-gray-400">
               Selecciona el proveedor que suministra este producto
             </p>
           </div>

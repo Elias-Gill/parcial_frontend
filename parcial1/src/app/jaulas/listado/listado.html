@@ -169,3 +169,10 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de confirmación -->
+<app-confirm-dialog-jaula 
+  *ngIf="showConfirmDialog"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirm-dialog-jaula>

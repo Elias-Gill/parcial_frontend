@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Producto } from '../../models/producto';
 import { Proveedor } from '../../models/proveedor';
+import { ConfirmDialogProductoComponent } from '../modal/modal';
 
 @Component({
   selector: 'app-productos-listado',
   templateUrl: './listado.html',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmDialogProductoComponent],
   standalone: true,
   styleUrls: ['./listado.css'],
 })
@@ -17,6 +18,8 @@ export class ListadoComponent implements OnInit {
   filtro: string = '';
   productos: Producto[] = [];
   proveedores: Proveedor[] = [];
+  showConfirmDialog = false;
+  productoAEliminar: number | null = null;
 
   constructor(private storage: StorageService) {}
 
@@ -36,9 +39,21 @@ export class ListadoComponent implements OnInit {
   }
 
   eliminarProducto(id: number) {
-    if (!confirm('¿Seguro que querés eliminar este producto?')) return;
+    this.productoAEliminar = id;
+    this.showConfirmDialog = true;
+  }
 
-    this.productos = this.productos.filter(p => p.idProducto !== id);
-    this.storage.setItem<Producto[]>('productos', this.productos);
+  onConfirmDelete() {
+    if (this.productoAEliminar !== null) {
+      this.productos = this.productos.filter(p => p.idProducto !== this.productoAEliminar);
+      this.storage.setItem<Producto[]>('productos', this.productos);
+    }
+    this.showConfirmDialog = false;
+    this.productoAEliminar = null;
+  }
+
+  onCancelDelete() {
+    this.showConfirmDialog = false;
+    this.productoAEliminar = null;
   }
 }

@@ -4,7 +4,9 @@ import { calcularEstadoTurno, EstadoTurno, Turno } from '../../models/turno';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { TurnosFormularioComponent } from '../formulario/formulario';
+import { TurnoDetalleDialogComponent } from '../modal/modal';
 
 @Component({
   selector: 'app-turnos-listado',
@@ -18,8 +20,10 @@ export class TurnosListadoComponent implements OnInit {
   fechaSeleccionada: string = new Date().toISOString().split('T')[0]; // Hoy
   jaulas: { idJaula: number; nombre: string; enUso: boolean }[] = [];
   mostrarFormulario = false;
+  mostrarError = false;
+  mensajeError = '';
 
-  constructor(private storage: StorageService) {}
+  constructor(private storage: StorageService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.cargarTurnos();
@@ -83,7 +87,7 @@ export class TurnosListadoComponent implements OnInit {
   iniciarRecepcion(turno: Turno) {
     const jaulaLibre = this.jaulas.find((j) => !j.enUso);
     if (!jaulaLibre) {
-      alert('No hay jaulas disponibles');
+      this.mostrarMensajeError('No hay jaulas disponibles');
       return;
     }
 
@@ -99,7 +103,7 @@ export class TurnosListadoComponent implements OnInit {
 
   finalizarRecepcion(turno: Turno) {
     if (!turno.horaInicioRecepcion) {
-      alert('La recepción no ha iniciado.');
+      this.mostrarMensajeError('La recepción no ha iniciado.');
       return;
     }
 
@@ -121,14 +125,28 @@ export class TurnosListadoComponent implements OnInit {
   }
 
   verDetalles(turno: Turno) {
-    alert(
-      'Detalles:\n' + turno.productos.map((p) => `${p.nombreProducto}: ${p.cantidad}`).join('\n'),
-    );
+    this.dialog.open(TurnoDetalleDialogComponent, {
+      width: '400px',
+      data: turno,
+    });
   }
 
   onTurnoCreado(nuevoTurno: Turno) {
     this.turnos.push(nuevoTurno);
     this.guardarCambios();
     this.mostrarFormulario = false;
+  }
+
+  mostrarMensajeError(mensaje: string) {
+    this.mensajeError = mensaje;
+    this.mostrarError = true;
+    setTimeout(() => {
+      this.ocultarMensajeError();
+    }, 5000);
+  }
+
+  ocultarMensajeError() {
+    this.mostrarError = false;
+    this.mensajeError = '';
   }
 }

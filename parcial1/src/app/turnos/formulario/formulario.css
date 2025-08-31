@@ -20,3 +20,68 @@ button {
   padding: 0.4rem 0.8rem;
   cursor: pointer;
 }
+
+/* Toast Styles */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  max-width: 400px;
+}
+
+.toast {
+  background: rgba(127, 29, 29, 0.95);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  animation: slideInFromTop 0.3s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  color: #fca5a5;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  color: #fecaca;
+  font-size: 14px;
+  flex: 1;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #fca5a5;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  transition: color 0.2s;
+}
+
+.toast-close:hover {
+  color: #f87171;
+}

@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Proveedor } from '../../models/proveedor';
+import { ConfirmDialogComponent } from '../modal/modal';
 
 @Component({
   selector: 'app-proveedores-listado',
   templateUrl: './listado.html',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmDialogComponent],
   styleUrls: ['./listado.css'],
   standalone: true,
 })
 export class ListadoComponent implements OnInit {
   filtro: string = '';
   proveedores: Proveedor[] = [];
+  mostrarDialog: boolean = false;
+  proveedorAEliminar: number | null = null;
 
   constructor(private storage: StorageService) {}
 
@@ -35,9 +38,21 @@ export class ListadoComponent implements OnInit {
   }
 
   eliminarProveedor(id: number) {
-    if (!confirm('¿Seguro que querés eliminar este proveedor?')) return;
+    this.proveedorAEliminar = id;
+    this.mostrarDialog = true;
+  }
 
-    this.proveedores = this.proveedores.filter((p) => p.idProveedor !== id);
-    this.storage.setItem('proveedores', this.proveedores);
+  confirmarEliminacion() {
+    if (this.proveedorAEliminar) {
+      this.proveedores = this.proveedores.filter((p) => p.idProveedor !== this.proveedorAEliminar);
+      this.storage.setItem('proveedores', this.proveedores);
+      this.mostrarDialog = false;
+      this.proveedorAEliminar = null;
+    }
+  }
+
+  cancelarEliminacion() {
+    this.mostrarDialog = false;
+    this.proveedorAEliminar = null;
   }
 }

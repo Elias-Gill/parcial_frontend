@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Jaula } from '../../models/jaula';
+import { ConfirmDialogJaulaComponent } from '../modal/modal';
 
 @Component({
   selector: 'app-jaulas-listado',
   templateUrl: './listado.html',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmDialogJaulaComponent],
   styleUrls: ['./listado.css'],
   standalone: true,
 })
 export class ListadoComponent {
   filtro: string = '';
   jaulas: Jaula[] = [];
+  showConfirmDialog = false;
+  jaulaAEliminar: number | null = null;
 
   constructor(private storage: StorageService) {
     const stored = this.storage.getItem<Jaula[]>('jaulas');
@@ -35,9 +38,21 @@ export class ListadoComponent {
   }
 
   eliminarJaula(id: number) {
-    if (!confirm('¿Seguro que querés eliminar esta jaula?')) return;
+    this.jaulaAEliminar = id;
+    this.showConfirmDialog = true;
+  }
 
-    this.jaulas = this.jaulas.filter((j) => j.idJaula !== id);
-    this.storage.setItem('jaulas', this.jaulas);
+  onConfirmDelete() {
+    if (this.jaulaAEliminar !== null) {
+      this.jaulas = this.jaulas.filter((j) => j.idJaula !== this.jaulaAEliminar);
+      this.storage.setItem('jaulas', this.jaulas);
+    }
+    this.showConfirmDialog = false;
+    this.jaulaAEliminar = null;
+  }
+
+  onCancelDelete() {
+    this.showConfirmDialog = false;
+    this.jaulaAEliminar = null;
   }
 }

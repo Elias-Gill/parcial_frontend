@@ -351,6 +351,18 @@ html, body {
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--bg-glass) !important;
+  border-radius: 16px !important;
+  color: var(--text-primary) !important;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(10, 10, 10, 0.5) !important;
+  backdrop-filter: blur(1.5px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .card {
@@ -363,3 +375,4 @@ html, body {
     font-size: 13px;
   }
 }
+

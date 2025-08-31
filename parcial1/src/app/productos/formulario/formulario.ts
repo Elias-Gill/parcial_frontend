@@ -18,6 +18,8 @@ export class FormularioComponent implements OnInit {
   editMode = false;
   productos: Producto[] = [];
   proveedores: Proveedor[] = []; // lista de proveedores para el select
+  mostrarTooltipNombre = false;
+  mostrarTooltipProveedor = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,9 +43,28 @@ export class FormularioComponent implements OnInit {
     }
   }
 
+  onNombreChange() {
+    if (this.mostrarTooltipNombre && this.producto.nombre.trim() !== '') {
+      this.mostrarTooltipNombre = false;
+    }
+  }
+
+  onProveedorChange() {
+    if (this.mostrarTooltipProveedor && this.producto.idProveedor) {
+      this.mostrarTooltipProveedor = false;
+    }
+  }
+
   guardar() {
+    // Validar nombre
+    if (!this.producto.nombre || this.producto.nombre.trim() === '') {
+      this.mostrarTooltipNombre = true;
+      return;
+    }
+
+    // Validar proveedor
     if (!this.producto.idProveedor) {
-      alert('Debes seleccionar un proveedor.');
+      this.mostrarTooltipProveedor = true;
       return;
     }
 

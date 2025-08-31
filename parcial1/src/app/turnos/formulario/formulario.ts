@@ -24,6 +24,10 @@ export class TurnosFormularioComponent implements OnInit {
   cantidades: Record<number, number> = {}; // Para bindear cantidades por producto
   filtroProducto: string = '';
 
+  // Estados para mensajes estéticos
+  mensajeError = '';
+  mostrarError = false;
+
   ngOnInit() {
     this.proveedores = this.storage.getItem<Proveedor[]>('proveedores') || [];
     this.productos = this.storage.getItem<Producto[]>('productos') || [];
@@ -57,7 +61,7 @@ export class TurnosFormularioComponent implements OnInit {
   agregarProducto(producto: Producto) {
     const cantidad = this.cantidades[producto.idProducto];
     if (!cantidad || cantidad <= 0) {
-      alert('Ingrese una cantidad válida');
+      this.mostrarMensajeError('Ingrese una cantidad válida');
       return;
     }
 
@@ -76,6 +80,7 @@ export class TurnosFormularioComponent implements OnInit {
     }
 
     this.cantidades[producto.idProducto] = 0; // reset input
+    this.ocultarMensajeError(); // Ocultar error si estaba visible
   }
 
   eliminarProducto(idProducto: number) {
@@ -91,7 +96,7 @@ export class TurnosFormularioComponent implements OnInit {
       !this.horaFin ||
       this.productosSeleccionados.length === 0
     ) {
-      alert('Complete todos los campos');
+      this.mostrarMensajeError('Complete todos los campos');
       return;
     }
 
@@ -119,5 +124,20 @@ export class TurnosFormularioComponent implements OnInit {
     this.cantidades = {};
     this.productosFiltrados = [];
     this.filtroProducto = '';
+    this.mostrarError = false;
+    this.mensajeError = '';
+  }
+
+  mostrarMensajeError(mensaje: string) {
+    this.mensajeError = mensaje;
+    this.mostrarError = true;
+    setTimeout(() => {
+      this.ocultarMensajeError();
+    }, 5000);
+  }
+
+  ocultarMensajeError() {
+    this.mostrarError = false;
+    this.mensajeError = '';
   }
 }

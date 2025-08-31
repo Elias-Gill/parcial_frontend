@@ -16,6 +16,7 @@ export class FormularioComponent {
   proveedor: Proveedor = { idProveedor: 0, nombre: '' };
   editMode = false;
   proveedores: Proveedor[] = [];
+  mostrarTooltip = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,17 @@ export class FormularioComponent {
     }
   }
 
+  onInputChange() {
+    if (this.mostrarTooltip && this.proveedor.nombre.trim() !== '') {
+      this.mostrarTooltip = false;
+    }
+  }
+
   guardar() {
+    if(!this.proveedor.nombre || this.proveedor.nombre.trim() == '') {
+      this.mostrarTooltip = true;
+      return;
+    }
     if (this.editMode) {
       const index = this.proveedores.findIndex((p) => p.idProveedor === this.proveedor.idProveedor);
       if (index !== -1) this.proveedores[index] = this.proveedor;
@@ -42,7 +53,6 @@ export class FormularioComponent {
           : 1;
       this.proveedores.push(this.proveedor);
     }
-
     this.storage.setItem('proveedores', this.proveedores);
     this.router.navigate(['/proveedores']);
   }

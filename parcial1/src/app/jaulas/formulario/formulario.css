@@ -22,3 +22,9 @@ button {
   padding: 0.6rem 1rem;
   cursor: pointer;
 }
+
+/* Estilos para campos con error*/
+.input.border-red-500 {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
