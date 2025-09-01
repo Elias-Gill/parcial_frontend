@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TurnosFormularioComponent } from '../formulario/formulario';
 import { TurnoDetalleDialogComponent } from '../modal/modal';
+import { Proveedor } from '../../models/proveedor';
+import { JaulasModule } from '../../jaulas/jaulas-module';
+import { Jaula } from '../../models/jaula';
 
 @Component({
   selector: 'app-turnos-listado',
@@ -18,16 +21,21 @@ import { TurnoDetalleDialogComponent } from '../modal/modal';
 export class TurnosListadoComponent implements OnInit {
   turnos: Turno[] = [];
   fechaSeleccionada: string = new Date().toISOString().split('T')[0]; // Hoy
-  jaulas: { idJaula: number; nombre: string; enUso: boolean }[] = [];
+  jaulas: Jaula[] = [];
   mostrarFormulario = false;
   mostrarError = false;
   mensajeError = '';
+  proveedores: Proveedor[] = [];
 
-  constructor(private storage: StorageService, private dialog: MatDialog) {}
+  constructor(
+    private storage: StorageService,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.cargarTurnos();
     this.cargarJaulas();
+    this.cargarProveedores();
   }
 
   cargarTurnos() {
@@ -36,8 +44,12 @@ export class TurnosListadoComponent implements OnInit {
     this.turnos.sort((a, b) => a.horaInicioAgendamiento.localeCompare(b.horaInicioAgendamiento));
   }
 
+  cargarProveedores() {
+    this.proveedores = this.storage.getItem<Proveedor[]>('proveedores') || [];
+  }
+
   cargarJaulas() {
-    this.jaulas = this.storage.getItem<any[]>('jaulas') || [];
+    this.jaulas = this.storage.getItem<Jaula[]>('jaulas') || [];
   }
 
   estado(turno: Turno): EstadoTurno {
@@ -45,15 +57,15 @@ export class TurnosListadoComponent implements OnInit {
   }
 
   get turnosPendientes(): number {
-    return this.turnos.filter(t => this.estado(t) === 'pendiente').length;
+    return this.turnos.filter((t) => this.estado(t) === 'pendiente').length;
   }
 
   get turnosEnRecepcion(): number {
-    return this.turnos.filter(t => this.estado(t) === 'en recepcion').length;
+    return this.turnos.filter((t) => this.estado(t) === 'en recepcion').length;
   }
 
   get turnosFinalizados(): number {
-    return this.turnos.filter(t => this.estado(t) === 'completado').length;
+    return this.turnos.filter((t) => this.estado(t) === 'completado').length;
   }
 
   getEstadoBadgeClass(turno: Turno): string {
@@ -148,5 +160,11 @@ export class TurnosListadoComponent implements OnInit {
   ocultarMensajeError() {
     this.mostrarError = false;
     this.mensajeError = '';
+  }
+
+  getNombreProveedor(idProveedor: any): string {
+    const idNum = Number(idProveedor); // Convertir siempre a número
+    const proveedor = this.proveedores.find((p) => Number(p.idProveedor) === idNum);
+    return proveedor ? proveedor.nombre : `Proveedor #${idNum}`;
   }
 }
